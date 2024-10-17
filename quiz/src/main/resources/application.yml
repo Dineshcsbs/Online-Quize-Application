@@ -1,0 +1,28 @@
+server:
+  port: ${SERVER_PORT}
+
+security:
+  jwt:
+    secret-key: ${SECRET_KEY}
+
+spring:
+  application:
+    name: quiz
+  datasource:
+    url: jdbc:mysql://localhost:3306/online_quiz
+    username: root
+    password: Dinesh@006
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  show-sql: true
+  liquibase:
+    change-log: classpath:/liquibase/master.xml
+    database-change-log-lock-table: databasechangelock
+  main:
+    allow-bean-definition-overriding: true
+#  logging:
+#    level:
+#      org.hibernate.SQL: DEBUG
+#      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
