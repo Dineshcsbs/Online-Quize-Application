@@ -5,6 +5,8 @@ import com.online.quiz.entity.QuestionSet;
 import com.online.quiz.entity.User;
 import com.online.quiz.service.QuestionSetService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,9 +34,32 @@ public class QuestionSetController {
         return this.questionSetService.getQuestionSet(id);
     }
 
-    @GetMapping("/register")
-    public List<QuestionSet> registerTest(){
-        return this.questionSetService.getAllUnRegisterSet();
+//    @GetMapping("/register")
+//    public List<QuestionSet> registerTest(){
+//        return this.questionSetService.getAllUnRegisterSet();
+//    }
+
+    @GetMapping("/assignment-unregister")
+    public Page<QuestionSet> getUnRegisterAssinment(@RequestParam(required = false) String search,
+                                                    @RequestParam(defaultValue = "0") final int pageNo,
+                                                    @RequestParam(defaultValue = "4") final int pageSize,
+                                                    @RequestParam(defaultValue = "id") final String fieldName,
+                                                    @RequestParam(defaultValue = "ASC") final Sort.Direction direction){
+        return this.questionSetService.getAllUnRegisterSetAssignment(search, pageNo, pageSize, fieldName, direction);
+    }
+
+    @GetMapping("/test-unregister")
+    public Page<QuestionSet> getUnRegisterTest(@RequestParam(required = false) String search,
+                                                    @RequestParam(defaultValue = "0") final int pageNo,
+                                                    @RequestParam(defaultValue = "4") final int pageSize,
+                                                    @RequestParam(defaultValue = "id") final String fieldName,
+                                                    @RequestParam(defaultValue = "ASC") final Sort.Direction direction){
+        return this.questionSetService.getAllUnRegisterSetTest(search, pageNo, pageSize, fieldName, direction);
+    }
+
+    @GetMapping("/available-register")
+    public List<List<Integer>> getAvailableRegister(){
+        return this.questionSetService.getAvailableRegister();
     }
 
     @PutMapping("/question-set/{id}")

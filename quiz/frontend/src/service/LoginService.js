@@ -14,7 +14,7 @@ export const LoginService = createApi({
       return headers;
     },
   }),
-  tagType: ["register", "finish"],
+  tagType: ["register", "finish","active"],
   endpoints: (build) => ({
     userSign: build.mutation({
       query: (data) => ({
@@ -71,9 +71,24 @@ export const LoginService = createApi({
       query: (id) => `api/v1/answer/${id}`,
     }),
 
+    // availableTest: build.query({
+    //   query: (id) => `api/v1/register`,
+    //   providesTags: ["register"],
+    // }),
+
     availableTest: build.query({
-      query: (id) => `api/v1/register`,
-      providesTags: ["register"],
+      query: (id) => `api/v1/available-register`,
+    }),
+
+    registerAssignmentTest: build.query({
+      query:({search,searchCurrentPageNo})=>`api/v1/assignment-unregister?pageNo=${searchCurrentPageNo}${search.length===0?"":`&search=${search}`}`,
+      
+      providesTags: ["active"],
+    }),
+
+    registerPracticeTest: build.query({
+      query:({search,searchCurrentPageNo})=>`api/v1/test-unregister?pageNo=${searchCurrentPageNo}${search.length===0?"":`&search=${search}`}`,
+      providesTags: ["active"],
     }),
 
     testRegister: build.mutation({
@@ -81,7 +96,7 @@ export const LoginService = createApi({
         url: `api/v1/test/${id}`,
         method: "POST",
       }),
-      invalidatesTags: ["register"],
+      invalidatesTags: ["active"],
     }),
 
     averageMark: build.query({
@@ -95,7 +110,6 @@ export const LoginService = createApi({
       query: (pgNo) =>({
         url:`/api/v1/active-test-search?pageNo=${pgNo}`,
         method:"GET",
-        // body:pgNo
       }),
     }),
 
@@ -130,6 +144,8 @@ export const {
   usePendingTestQuery,
   useRetriveAnswerQuery,
   useAvailableTestQuery,
+  useRegisterAssignmentTestQuery,
+  useRegisterPracticeTestQuery,
   useTestRegisterMutation,
   useAverageMarkQuery,
   useSearchActiveTestQuery,

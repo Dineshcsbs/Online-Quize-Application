@@ -2,17 +2,12 @@ package com.online.quiz.service;
 
 import com.online.quiz.dto.AnswerDTO;
 import com.online.quiz.dto.QuestionDTO;
-import com.online.quiz.entity.Answer;
 import com.online.quiz.entity.Question;
 import com.online.quiz.repository.AnswerRepository;
 import com.online.quiz.repository.QuestionRepository;
 import com.online.quiz.uitl.JwtFilter;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.*;
 import java.util.stream.Collectors;

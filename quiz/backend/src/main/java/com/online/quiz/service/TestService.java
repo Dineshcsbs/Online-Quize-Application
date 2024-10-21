@@ -165,4 +165,8 @@ public class TestService {
                 pageable);
 
     }
+
+    public List<Test> getAllUserRegisterTest() {
+        return this.testRepository.findAllByUser_UserCredential_Id(jwtFilter.extractUsername().get("sub", String.class));
+    }
 }

@@ -15,6 +15,9 @@ import SignUp from "./pages/SignUp";
 import AnswerView from "./pages/AnswerView";
 import RegisterTest from "./pages/RegisterTest";
 import CompletedTest from "./pages/CompletedTest";
+import RegisterAssignment from './pages/RegisterAssignment';
+import RegisterPractice from './pages/RegisterPractice';
+import Stepper from './components/CommonView';
 
 
 function App() {
@@ -37,7 +40,7 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-      <Route path="/t" element={<CountdownTimer/>}/>
+      <Route path="/t" element={<Stepper/>}/>
         <Route path="/" element={<Login />} />
         <Route path="/admin-sign-up" element={<SignUp authority={true}/>} />
         <Route path="/sign-up" element={<SignUp authority={false}/>} />
@@ -46,6 +49,8 @@ function App() {
         <Route path="/assignment" element={<><NavBar /><Assignment/></>}/>
         <Route path="/completed" element={<><NavBar /><CompletedTest/></>}/>
         <Route path="/practice" element={<><NavBar /><Practice/></>}/>
+        <Route path="/register-assignment" element={<><NavBar /><RegisterAssignment/></>}/>
+        <Route path="/register-test" element={<><NavBar /><RegisterPractice/></>}/>
         <Route path="/common" element={<><NavBar/><CommonTest/></>}/>
         <Route path="/test" element={<TestWindow/>}/>
         <Route path="/result" element={<Result/>}/>

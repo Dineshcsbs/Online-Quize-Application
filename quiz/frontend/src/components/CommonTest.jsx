@@ -1,7 +1,9 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
+import { toast, ToastContainer } from "react-toastify";
+import { useTestRegisterMutation } from "../service/LoginService";
 
 const CommonTest = ({ searchFunction ,status}) => {
 
@@ -16,6 +18,7 @@ const CommonTest = ({ searchFunction ,status}) => {
   const [search, setSearch] = useState("");
 
   const { searchTest, error } = searchFunction(search,searchCurrentPageNo); 
+  const [register] = useTestRegisterMutation();
 
   const handleKeyDown = (event) => {
       if (event.target.value !== null) setSearch(event.target.value);
@@ -29,11 +32,17 @@ const CommonTest = ({ searchFunction ,status}) => {
 
   const handleConform = (data) => {
     setPackages(data);
-    setSelectPackage(data?.questionSet?.subject);
+    setSelectPackage( status.startsWith('register')?data?.subject:data?.questionSet?.subject);
     setIsModalOpen(true);
   };
 
   const startTest = () => {
+    if( status.startsWith('register')){
+      console.log(packages.id);
+      
+      handleSave(packages);
+    }
+    else{
     navigate(
       status === "active" || status === "practice" ? "/test" : "/answer",
       {
@@ -43,11 +52,18 @@ const CommonTest = ({ searchFunction ,status}) => {
             : packages?.questionSet?.id,
       }
     );
+  }
+    setIsModalOpen(false);
+  };
+  const handleSave = (data) => {
+    register(data?.id);
+    toast.success(`${data?.subject} added successfully!`, { autoClose: 500 });
     setIsModalOpen(false);
   };
 
   return (
     <div className="bg-secondary bg-opacity-10 card border-0 rounded-0 vh-100">
+      <ToastContainer />
       <div className="mx-sm-3 mx-md-5 mx-xxl-5 mx-3 mt-sm-3 mt-lg-5 mt-3">
         <div className="card">
           <div className="mx-4 mt-4 mb-4 ">
@@ -55,8 +71,9 @@ const CommonTest = ({ searchFunction ,status}) => {
               {status === "active"
                 ? "Assignment Page"
                 : status === "practice"
-                ? "Practice Page"
-                : "Answer View"}
+                ? "Practice Page":
+                status==='register Assignment'?"Register the Assignment"
+                : status==='register Practice'?"Register the Practice":"Answer View"}
             </h4>
             <h3>Welcome to Our Application</h3>
           </div>
@@ -89,6 +106,7 @@ const CommonTest = ({ searchFunction ,status}) => {
           </div>
           <hr className="mt-1" />
           <div className="row g-3 g-lg-5 mx-1 mx-lg-3">
+              <div className="align-center">{searchTest?.content.length===0?"No such element is found":""}</div>
              {searchTest?.content?.map((data) => (
               <div
                 key={data.id}
@@ -102,10 +120,10 @@ const CommonTest = ({ searchFunction ,status}) => {
                   ></div>
                   <div className="row mt-3 mx-3">
                     <div className="col-6">
-                      <h5>{data?.questionSet?.subject}</h5>
+                      <h5>{status.startsWith('register')?data?.subject:data?.questionSet?.subject}</h5>
                     </div>
                     <div className="col-6 text-end">
-                      {data?.question?.image && (
+                      {/* {status==='register'?data?.image:data?.question?.image && (
                         <img
                           src={data.question.image}
                           alt=""
@@ -113,19 +131,20 @@ const CommonTest = ({ searchFunction ,status}) => {
                           height="50"
                           className="rounded-3"
                         />
-                      )}
+                      )} */}
                     </div>
                   </div>
                   <div className="fw ms-4 my-3">
                     {status === "completed"
                       ? `Mark Score: ${data?.mark}`
-                      : `Basic Level ${data?.questionSet?.subject}`}
+                      : `Basic Level ${status.startsWith('register')?data?.subject:data?.questionSet?.subject}`}
                   </div>
                 </div>
               </div>
             ))} 
           </div>
           <div className="d-flex justify-content-center mt-4">
+            {searchTest?.content.length!==0?
           <nav aria-label="Page navigation example">
             <ul className="pagination">
               <li className={`${searchTest?.pageable?.pageNumber===0?"disabled":""}`} onClick={()=>pageNoClick(-1)}>
@@ -140,7 +159,7 @@ const CommonTest = ({ searchFunction ,status}) => {
                 </a>
               </li>
             </ul>
-          </nav>
+          </nav>:""}
           </div>
         </div>
         
@@ -152,14 +171,14 @@ const CommonTest = ({ searchFunction ,status}) => {
         onSave={startTest}
         title={`${selectPackage} Package`}
         buttonName={`${
-          status === "active" || status === "practice" ? "Start" : "Answer"
+          status === "active" || status === "practice" ? "Start" : status.startsWith('register')?"Add":"Answer"
         } `}
       >
         <p>
           {`${
             status === "active" || status === "practice"
               ? "Are you ready for "
-              : "Do you want to see the answer?"
+              :  status.startsWith('register')?"Are you sure you add package?":"Do you want to see the answer?"
           }`}
           <span className="fw-bold">{selectPackage}</span>{" "}
           {`${status === "active" || status === "practice" ? "test?" : ""}`}
