@@ -1,6 +1,5 @@
 package com.online.quiz.controller;
 
-import com.online.quiz.dto.UpdateUserDTO;
 import com.online.quiz.entity.QuestionSet;
 import com.online.quiz.entity.User;
 import com.online.quiz.service.QuestionSetService;

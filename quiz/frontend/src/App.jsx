@@ -17,7 +17,8 @@ import RegisterTest from "./pages/RegisterTest";
 import CompletedTest from "./pages/CompletedTest";
 import RegisterAssignment from './pages/RegisterAssignment';
 import RegisterPractice from './pages/RegisterPractice';
-import Stepper from './components/CommonView';
+import Scorrling from './components/CommonView';
+// import Stepper from './components/CommonView';
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-      <Route path="/t" element={<Stepper/>}/>
+      <Route path="/nroll-test" element={<Scorrling/>}/>
         <Route path="/" element={<Login />} />
         <Route path="/admin-sign-up" element={<SignUp authority={true}/>} />
         <Route path="/sign-up" element={<SignUp authority={false}/>} />

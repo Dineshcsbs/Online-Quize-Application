@@ -3,6 +3,7 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Icon } from "@iconify/react"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../assets/logo.jpg";
+import mineType from "../../src/constant/Schema/mediaType/MimeType"
 import {
   useAvailablePracticeQuery,
   usePendingTestQuery,
@@ -84,12 +85,13 @@ const CustomNavbar = () => {
 
             <NavDropdown
               title={
+                user?.image?
                 <img
-                  src={`data:${"image/jpeg"};base64,${user?.image}`}
+                  src={`data:${mineType(user?.image.imageFormat)};base64,${user?.image}`}
                   alt="profile"
                   className="rounded-circle"
                   style={{ width: "40px", height: "40px" }}
-                />
+                />:<Icon icon="ion:person-sharp" width="40" height="40"  style={{color: 'white'}} />
               }
               id="profile-dropdown"
               align="end"
@@ -100,7 +102,11 @@ const CustomNavbar = () => {
                 onClick={() => navigate("/profile")}
               />
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+              <Button
+                className={"btn bg-white mb-1"}
+                children="Logout"
+                onClick={() => navigate("/")}
+              />
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

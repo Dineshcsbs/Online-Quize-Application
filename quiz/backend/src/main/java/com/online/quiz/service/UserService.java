@@ -9,6 +9,7 @@ import com.online.quiz.uitl.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,11 @@ public class UserService {
                         userInfo.setPhoneNumber(user.getPhoneNumber());
                     }
                     if (user.getImage() != null) {
-                        userInfo.setImage(user.getImage());
+                        try {
+                            userInfo.setImage(user.getImage().getBytes());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e.getMessage());
+                        }
                     }
                     return userRepository.save(userInfo);
                 })
@@ -59,4 +64,7 @@ public class UserService {
     public User getUserDetail() {
         return this.userRepository.findByUserCredentialId(jwtFilter.extractUsername().get("sub",String.class));
     }
+
+//    public User updateUserInfo(UpdateUserDTO updateUserDTO) {
+//    }
 }

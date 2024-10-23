@@ -35,6 +35,14 @@ export const LoginService = createApi({
       query: (data) => "api/v1/user-info",
     }),
 
+    updateUser:build.mutation({
+      query:(data)=>({
+        url:'update',
+        method:"PUT",
+        body:data,
+      })
+    }),
+
     testUser: build.query({
       query: (data) => "api/v1/test-user",
     }),
@@ -127,14 +135,35 @@ export const LoginService = createApi({
         method: "GET",
       }),
     }),
+
+    nrollTest: build.mutation({
+      query: (data) => ({
+        url: ``,
+        method: "POST",
+        body: data,
+      }),
+      // invalidatesTags: ["active"],
+    }),
+
+    vigneshUserSign: build.mutation({
+      query: (data) => ({
+        url: ``,
+        method: "POST",
+        body: data,
+      }),
+      // invalidatesTags: ["active"],
+    }),
   }),
 });
 
 export const {
+  useVigneshUserSignMutation,
+  useNrollTestMutation,
   useLoginUserMutation,
   useUserSignMutation,
   useDemoGetQuestionQuery,
   useUserDataQuery,
+  useUpdateUserMutation,
   useTestUserQuery,
   useAvailablePracticeQuery,
   useActiveTestQuery,

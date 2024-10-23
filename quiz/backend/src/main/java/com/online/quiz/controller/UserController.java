@@ -27,7 +27,17 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public User updateUser(@RequestParam("image") MultipartFile image ) throws IOException {
-        return this.userService.updateUser(UpdateUserDTO.builder().image(image.getBytes()).build());
+    public User updateUserInfo(@ModelAttribute UpdateUserDTO updateUserDTO) throws IOException {
+
+//        if (!image.isEmpty()) {
+//            updateUserDTO.setImage(image.getBytes());
+//        }
+        return this.userService.updateUser(updateUserDTO);
+
     }
+
+//    @PutMapping("/update")
+//    public User updateUser(@RequestParam("image") MultipartFile image ) throws IOException {
+//        return this.userService.updateUser(UpdateUserDTO.builder().image(image.getBytes()).build());
+//    }
 }

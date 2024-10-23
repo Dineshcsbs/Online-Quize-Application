@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { toast, ToastContainer } from "react-toastify";
 import { useTestRegisterMutation } from "../service/LoginService";
+import mineType from "../../src/constant/Schema/mediaType/MimeType"
 
 const CommonTest = ({ searchFunction ,status}) => {
 
@@ -108,12 +109,16 @@ const CommonTest = ({ searchFunction ,status}) => {
           <div className="row g-3 g-lg-5 mx-1 mx-lg-3">
               <div className="align-center">{searchTest?.content.length===0?"No such element is found":""}</div>
              {searchTest?.content?.map((data) => (
+              
               <div
                 key={data.id}
                 className="col-12 col-md-6 col-lg-3"
                 onClick={() => handleConform(data)}
+                
               >
-                <div className="bg-white rounded-3 card border-0 mb-4">
+                {/* {console.log(data?.questionSet?.image)
+                } */}
+                <div className="bg-white rounded-3 card border-0 mb-4 " >
                   <div
                     className="bg-primary rounded-top-3"
                     style={{ height: "8px" }}
@@ -123,15 +128,17 @@ const CommonTest = ({ searchFunction ,status}) => {
                       <h5>{status.startsWith('register')?data?.subject:data?.questionSet?.subject}</h5>
                     </div>
                     <div className="col-6 text-end">
-                      {/* {status==='register'?data?.image:data?.question?.image && (
-                        <img
-                          src={data.question.image}
-                          alt=""
+                      {/* {console.log(data.image)
+                        } */}
+                      {data?.image||data?.questionSet?.image ? (
+                      <img
+                          src={`data:${mineType(`${status.startsWith('register')?data.image:data?.questionSet?.image}`.imageFormat)};base64,${status.startsWith('register')?data.image:data?.questionSet?.image}`}
+                          alt="Image"
                           width="50"
                           height="50"
                           className="rounded-3"
                         />
-                      )} */}
+                       ):<Icon icon="carbon:no-image" width="50" height="50" />} 
                     </div>
                   </div>
                   <div className="fw ms-4 my-3">

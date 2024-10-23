@@ -9,6 +9,8 @@ const Select = React.forwardRef(({
   disabled,
   className,
 }, ref) => {
+  // console.log(options);
+  
   return (
     <select
       ref={ref} 
@@ -19,15 +21,19 @@ const Select = React.forwardRef(({
       className={className}
     >
       {placeholder && (
-        <option value="" disabled className='bg-opacity-50'>
+        <option value="" disabled className='text-opacity-50'>
           {placeholder}
         </option>
       )}
-      {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
+      {options?.length > 0 ? (
+        options?.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))
+      ) : (
+        <option value="" disabled>No options available</option>
+      )}
     </select>
   );
 });
