@@ -3,6 +3,7 @@ package com.online.quiz.service;
 import com.online.quiz.dto.QuestionDTO;
 import com.online.quiz.dto.ResponseMarkResult;
 import com.online.quiz.entity.*;
+import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.AnswerRepository;
 import com.online.quiz.repository.QuestionRepository;
 import com.online.quiz.repository.TestRepository;
@@ -50,14 +51,11 @@ public class TestService {
     }
     public Test updateTest(final String id,final Test test){
         Optional <Test> test1= Optional.ofNullable(this.testRepository.findByIdAndIsRemovedIsFalse(id));
-
-        return test1.map(testInfo->{
-            return testRepository.save(testInfo);
-        }).orElseThrow();
+        return test1.map(testRepository::save).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public Test getTestById(final String id) {
-        return this.testRepository.findById(id).orElseThrow();
+        return this.testRepository.findById(id).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public List<Test> getAllUnRegisterSet(){
@@ -70,15 +68,12 @@ public class TestService {
     }
 
     public ResponseMarkResult answer(final String id, final Map<String, String> answerDTO) {
-//        System.err.println(id);
         Test testIsPresent=testRepository.findById(id).orElseThrow();
         if(!testIsPresent.getQuestionSet().getIsPractice()){
             answerRepository.save(Answer.builder().userAnswer(answerDTO.toString())
                     .userCredential(UserCredential.builder().id(jwtFilter.extractUsername().get("sub", String.class)).build())
                     .questionSet(testRepository.findById(id).orElseThrow().getQuestionSet()).build());
         }
-
-//        answerRepository.save(Answer.builder().userAnswer(jwtFilter.extractUsername().get("sub", String.class)).userAnswer(answerDTO.toString()).test(Test.builder().id(id).build()).build());
         List<Question> questions = this.questionRepository.findAllByQuestionSet_Id(testIsPresent.getQuestionSet().getId());
         AtomicInteger mark = new AtomicInteger();
 
@@ -93,7 +88,6 @@ public class TestService {
             test.setIsActive(true);
             testRepository.save(test);
         }
-
 
         return ResponseMarkResult.builder()
                 .mark(mark.get()).mark(mark.get()*2)

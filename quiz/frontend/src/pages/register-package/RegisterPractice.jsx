@@ -1,6 +1,6 @@
 import React from 'react'
-import { useRegisterPracticeTestQuery } from '../service/LoginService';
-import CommonTest from '../components/CommonTest';
+import { useRegisterPracticeTestQuery } from '../../service/LoginService';
+import CommonTest from '../../components/CommonTest';
 
 const RegisterPractice = () => {
     const SearchTestData = (search, searchCurrentPageNo) => {

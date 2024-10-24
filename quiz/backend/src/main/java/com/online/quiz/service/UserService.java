@@ -4,7 +4,9 @@ import com.online.quiz.dto.SignUpRequestDTO;
 import com.online.quiz.dto.UpdateUserDTO;
 import com.online.quiz.entity.User;
 import com.online.quiz.entity.UserCredential;
+import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.UserRepository;
+import com.online.quiz.uitl.Constant;
 import com.online.quiz.uitl.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class UserService {
     }
 
     public User getUser(final String id) {
-        return this.userRepository.findById(id).orElseThrow();
+        return this.userRepository.findById(id).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public List<User> getAllUser() {
@@ -58,7 +60,7 @@ public class UserService {
                     }
                     return userRepository.save(userInfo);
                 })
-                .orElseThrow();
+                .orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public User getUserDetail() {

@@ -1,29 +1,27 @@
 import React, { useState } from "react";
-import CountdownTimer from "./Hooks";
-import { useMarkMutation, useQuestionSetQuery } from "../service/LoginService";
+import CountdownTimer from "../Hooks";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useMarkMutation } from "../../service/LoginService";
+import { useQuestionSetQuery } from "../../service/LoginService";
+
 
 const TestWindow = () => {
   const location = useLocation();
   const id = location.state;
-  console.log(id);
-  
   const navigate = useNavigate();
-  const { data: questions } = useQuestionSetQuery(
-    id
-  );
+  const { data: questions } = useQuestionSetQuery(id);
   const [test] = useMarkMutation();
   const [page, setPage] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answer, setAnswer] = useState({});
 
-  if (!Array.isArray(questions)) {
+  if (!Array.isArray(questions?.data)) {
     return <div>Loading questions...</div>;
   }
 
   const handleNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < questions?.data.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
@@ -33,21 +31,20 @@ const TestWindow = () => {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
-  // const submitAnswer=()=>{
-  //   const res=test({id,data:answer})
-  //   navigate("/result",{ state: res })
-  // }
+
   const submitAnswer = async () => {
     try {
       const res1 = await test({ id, data: answer }); 
-      // console.log(res1);
       navigate("/result", { state: res1 }); 
     } catch (error) {
       console.error("Error submitting answer:", error);
     }
   };
+  const handleTimerEnd = () => {
+    submitAnswer(); 
+};
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = questions?.data[currentQuestionIndex];
 
   return (
     <div className="d-flex flex-column vh-100">
@@ -57,7 +54,7 @@ const TestWindow = () => {
             <div className="col-lg-8 col-md-8 bg-secondary bg-opacity-10 rounded-3 p-4">
               <div className="mb-4">
                 <h5>
-                  Question {currentQuestionIndex + 1} of {questions.length}
+                  Question {currentQuestionIndex + 1} of {questions?.data.length}
                 </h5>
                 <hr />
                 <h6>{currentQuestion?.question}</h6>
@@ -90,11 +87,11 @@ const TestWindow = () => {
               style={{ height: "500px" }}
             >
               <h6 className="mb-4">
-                Timer: <CountdownTimer className="p-3" />
+                Timer: <CountdownTimer onTimerEnd={handleTimerEnd} className="p-3" />
               </h6>
               <hr />
               <div className="row  " style={{ height: "75%" }}>
-                {questions
+                {questions?.data
                   ?.slice(page * 21, (page + 1) * 21)
                   .map((_, index) => (
                     <div
@@ -104,7 +101,7 @@ const TestWindow = () => {
                       <div
                         className={`text-dark rounded-circle d-flex align-items-center justify-content-center ${
                           Object.keys(answer).includes(
-                            questions[index + page * 21]?.questionId
+                            questions?.data[index + page * 21]?.questionId
                           )
                             ? currentQuestionIndex === index + page * 21
                               ? " bg-secondary bg-opacity-50 "
@@ -125,7 +122,7 @@ const TestWindow = () => {
               </div>
               <div className="justify-content-between mt-3">
                 {Array.from(
-                  { length: Math.ceil(questions.length / 21) },
+                  { length: Math.ceil(questions?.data.length / 21) },
                   (_, index) => (
                     <span
                       key={index}
@@ -156,7 +153,7 @@ const TestWindow = () => {
         >
           Previous
         </button>
-        {currentQuestionIndex < questions.length - 1 ? (
+        {currentQuestionIndex < questions?.data.length - 1 ? (
           <button className="btn btn-light mx-2" onClick={handleNext}>
             Next
           </button>

@@ -2,7 +2,9 @@ package com.online.quiz.service;
 
 import com.online.quiz.entity.QuestionSet;
 import com.online.quiz.entity.Test;
+import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.QuestionSetRepository;
+import com.online.quiz.uitl.Constant;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +28,7 @@ public class QuestionSetService {
     }
 
     public QuestionSet getQuestionSet(final String id) {
-        return this.questionSetRepository.findById(id).orElseThrow();
+        return this.questionSetRepository.findById(id).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public List<QuestionSet> getAllQuestionSet() {
@@ -42,7 +44,7 @@ public class QuestionSetService {
                 question.setIsPractice(questionSet.getIsPractice());
             }
             return this.questionSetRepository.save(question);
-        }).orElseThrow();
+        }).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public String deleteQuestionSet(final String id) {
@@ -50,7 +52,7 @@ public class QuestionSetService {
             questionSet.setIsRemoved(true);
             questionSetRepository.save(questionSet);
             return "Delete Successful";
-        }).orElseThrow();
+        }).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public List<QuestionSet> getAllUnRegisterSet() {

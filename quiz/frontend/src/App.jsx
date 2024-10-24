@@ -1,64 +1,69 @@
-import React from 'react'
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import NavBar from "./components/NavBar";
-import Login from "./pages/Login";
+import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes, BrowserRouter, Outlet } from "react-router-dom";
-import Profile from "./pages/Profile";
-import DashBoard from "./pages/DashBoard";
-import Assignment from "./pages/Assignment";
-import Practice from "./pages/Practice";
-import TestWindow from "./pages/TestWindow";
-import CountdownTimer from "./pages/Hooks";
-import Result from "./pages/Result";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp"
+import Layout from "./pages/Layout"
+import DashBoard from "./pages/dashboard/DashBoard"
+import Assignment from "./pages/display-package/Assignment";
+import CompletedTest from "./pages/display-package/CompletedTest";
+import Practice from "./pages/display-package/Practice";
+import RegisterAssignment from "./pages/register-package/RegisterAssignment";
+import RegisterPractice from "./pages/register-package/RegisterPractice";
 import CommonTest from "./components/CommonTest";
-import SignUp from "./pages/SignUp";
-import AnswerView from "./pages/AnswerView";
-import RegisterTest from "./pages/RegisterTest";
-import CompletedTest from "./pages/CompletedTest";
-import RegisterAssignment from './pages/RegisterAssignment';
-import RegisterPractice from './pages/RegisterPractice';
-import Scorrling from './components/CommonView';
-// import Stepper from './components/CommonView';
-
+import Profile from "./pages/profile/Profile";
+import TestWindow from "./pages/test/TestWindow";
+import AnswerView from "./pages/answer/AnswerView";
+import Result from "./pages/result/Result";
+import RegisterTest from "./pages/register-package/RegisterTest";
 
 function App() {
 
-  // const Layout = () => {
-  //   return (
-  //     <Stack height={"100vh"} color={"black"}>
-  //       <NavBar />
-  //       <Stack flexGrow={1} p={2} overflow={"auto"}>
-  //         <Outlet />
-  //       </Stack>
-  //     </Stack>
-  //     <></>
-  //   );
-  // };
-
-
   return (
-
-
     <BrowserRouter>
       <Routes>
-      <Route path="/nroll-test" element={<Scorrling/>}/>
         <Route path="/" element={<Login />} />
-        <Route path="/admin-sign-up" element={<SignUp authority={true}/>} />
-        <Route path="/sign-up" element={<SignUp authority={false}/>} />
-        <Route path="/profile" element={<><NavBar /><Profile /></>} />
-        <Route path="/dashboard" element={<><NavBar /><DashBoard/></>}/>
-        <Route path="/assignment" element={<><NavBar /><Assignment/></>}/>
-        <Route path="/completed" element={<><NavBar /><CompletedTest/></>}/>
-        <Route path="/practice" element={<><NavBar /><Practice/></>}/>
-        <Route path="/register-assignment" element={<><NavBar /><RegisterAssignment/></>}/>
-        <Route path="/register-test" element={<><NavBar /><RegisterPractice/></>}/>
-        <Route path="/common" element={<><NavBar/><CommonTest/></>}/>
+        <Route path="/admin-sign-up" element={<SignUp authority={true} />} />
+        <Route path="/sign-up" element={<SignUp authority={false} />} />
+
+        <Route path="/" element={<Layout />}>
+          <Route path="dashboard" element={<DashBoard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/assignment" element={<Assignment/>}/>
+          <Route path="/completed" element={<CompletedTest/>}/>
+          <Route path="/practice" element={<Practice/>}/>
+          <Route path="/register-assignment" element={<RegisterAssignment/>}/>
+          <Route path="/register-test" element={<RegisterPractice/>}/>
+          <Route path="/common" element={<CommonTest/>}/>
+          <Route path="/register" element={<RegisterTest/>}/>
+        </Route>
         <Route path="/test" element={<TestWindow/>}/>
         <Route path="/result" element={<Result/>}/>
-        <Route path="/answer" element={<><NavBar /><AnswerView/></>}/>
-        <Route path="/register" element={<><NavBar /><RegisterTest/></>}/>
+        <Route path="/answer" element={<AnswerView/>}/>
       </Routes>
     </BrowserRouter>
+
+    // <BrowserRouter>
+    //   <Routes>
+    //   <Route path="/nroll-test" element={<Scorrling/>}/>
+    //     <Route path="/" element={<Login />} />
+    //     <Route path="/admin-sign-up" element={<SignUp authority={true}/>} />
+    //     <Route path="/sign-up" element={<SignUp authority={false}/>} />
+    //     <Route path="/profile" element={<Profile />} />
+    //     <Route path="/dashboard" element={<DashBoard/>}/>
+    //     <Route path="/assignment" element={<Assignment/>}/>
+    //     <Route path="/completed" element={<CompletedTest/>}/>
+    //     <Route path="/practice" element={<Practice/>}/>
+    //     <Route path="/register-assignment" element={<RegisterAssignment/>}/>
+    //     <Route path="/register-test" element={<RegisterPractice/>}/>
+    //     <Route path="/common" element={<CommonTest/>}/>
+    //     <Route path="/test" element={<TestWindow/>}/>
+    //     <Route path="/result" element={<Result/>}/>
+    //     <Route path="/answer" element={<AnswerView/>}/>
+    //     <Route path="/register" element={<RegisterTest/>}/>
+    //   </Routes>
+    // </BrowserRouter>
   );
 }
 

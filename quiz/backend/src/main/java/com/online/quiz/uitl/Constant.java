@@ -15,4 +15,5 @@ public class Constant {
     public static final String SUCCESS = "Request Successful";
     public static final String DELETE = "Data Delete";
     public static final String IDDOESNOTEXIT = "Id does not exit";
+    public static final String USEREXIT = "User already exit";
 }

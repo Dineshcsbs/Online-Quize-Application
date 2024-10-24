@@ -43,15 +43,15 @@ export const LoginService = createApi({
       })
     }),
 
-    testUser: build.query({
-      query: (data) => "api/v1/test-user",
-    }),
-    activeTest: build.query({
-      query: (data) => "api/v1/test-active",
-    }),
-    availablePractice: build.query({
-      query: () => `api/v1/practice`,
-    }),
+    // testUser: build.query({
+    //   query: (data) => "api/v1/test-user",
+    // }),
+    // activeTest: build.query({
+    //   query: (data) => "api/v1/test-active",
+    // }),
+    // availablePractice: build.query({
+    //   query: () => `api/v1/practice`,
+    // }),
     questionSet: build.query({
       query: (id) => `api/v1/test-set-question/${id}`,
     }),
@@ -66,19 +66,20 @@ export const LoginService = createApi({
         invalidatesTags: ["finish"],
       }),
     }),
-    testCompleted: build.query({
-      query: () => "api/v1/test-completed",
-      providesTags: ["finish"],
-    }),
-    pendingTest: build.query({
-      query: () => "api/v1/active-test",
-      providesTags: ["register", "finish"],
-    }),
+    // testCompleted: build.query({
+    //   query: () => "api/v1/test-completed",
+    //   providesTags: ["finish"],
+    // }),
+    // pendingTest: build.query({
+    //   query: () => "api/v1/active-test",
+    //   providesTags: ["register", "finish"],
+    // }),
 
     retriveAnswer: build.query({
       query: (id) => `api/v1/answer/${id}`,
     }),
 
+    //un -  nessary
     // availableTest: build.query({
     //   query: (id) => `api/v1/register`,
     //   providesTags: ["register"],
@@ -99,13 +100,13 @@ export const LoginService = createApi({
       providesTags: ["active"],
     }),
 
-    testRegister: build.mutation({
-      query: (id) => ({
-        url: `api/v1/test/${id}`,
-        method: "POST",
-      }),
-      invalidatesTags: ["active"],
-    }),
+    // testRegister: build.mutation({
+    //   query: (id) => ({
+    //     url: `api/v1/test/${id}`,
+    //     method: "POST",
+    //   }),
+    //   invalidatesTags: ["active"],
+    // }),
 
     averageMark: build.query({
       query: () => "api/v1/average-mark",
@@ -125,60 +126,60 @@ export const LoginService = createApi({
       query: ({search,searchCurrentPageNo}) => `/api/v1/search-completed-test?pageNo=${searchCurrentPageNo}${search.length===0?"":`&search=${search}`}`,
     }),
 
-    searchPracticeTest: build.query({
-      query: ({search,searchCurrentPageNo}) => `/api/v1/search-practice-test?pageNo=${searchCurrentPageNo}${search.length===0?"":`&search=${search}`}`,
-    }),
+    // searchPracticeTest: build.query({
+    //   query: ({search,searchCurrentPageNo}) => `/api/v1/search-practice-test?pageNo=${searchCurrentPageNo}${search.length===0?"":`&search=${search}`}`,
+    // }),
 
-    demoGetQuestion: build.query({
-      query: () => ({
-        url: "api/v1/question-set",
-        method: "GET",
-      }),
-    }),
+    // demoGetQuestion: build.query({
+    //   query: () => ({
+    //     url: "api/v1/question-set",
+    //     method: "GET",
+    //   }),
+    // }),
 
-    nrollTest: build.mutation({
-      query: (data) => ({
-        url: ``,
-        method: "POST",
-        body: data,
-      }),
-      // invalidatesTags: ["active"],
-    }),
+    // nrollTest: build.mutation({
+    //   query: (data) => ({
+    //     url: ``,
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    //   // invalidatesTags: ["active"],
+    // }),
 
-    vigneshUserSign: build.mutation({
-      query: (data) => ({
-        url: ``,
-        method: "POST",
-        body: data,
-      }),
-      // invalidatesTags: ["active"],
-    }),
+    // vigneshUserSign: build.mutation({
+    //   query: (data) => ({
+    //     url: ``,
+    //     method: "POST",
+    //     body: data,
+    //   }),
+    //   // invalidatesTags: ["active"],
+    // }),
   }),
 });
 
 export const {
-  useVigneshUserSignMutation,
-  useNrollTestMutation,
+  // useVigneshUserSignMutation,
+  // useNrollTestMutation,
   useLoginUserMutation,
   useUserSignMutation,
-  useDemoGetQuestionQuery,
+  // useDemoGetQuestionQuery,
   useUserDataQuery,
   useUpdateUserMutation,
-  useTestUserQuery,
-  useAvailablePracticeQuery,
-  useActiveTestQuery,
+  // useTestUserQuery,
+  // useAvailablePracticeQuery,
+  // useActiveTestQuery,
   useQuestionSetQuery,
   useMarkMutation,
-  useTestCompletedQuery,
-  usePendingTestQuery,
+  // useTestCompletedQuery,
+  // usePendingTestQuery,
   useRetriveAnswerQuery,
   useAvailableTestQuery,
   useRegisterAssignmentTestQuery,
   useRegisterPracticeTestQuery,
-  useTestRegisterMutation,
+  // useTestRegisterMutation,
   useAverageMarkQuery,
   useSearchActiveTestQuery,
   useSearchCompletedTestQuery,
-  useSearchPracticeTestQuery,
+  // useSearchPracticeTestQuery,
   usePageActiveTestQuery,
 } = LoginService;

@@ -1,5 +1,7 @@
 package com.online.quiz.service;
 
+import com.online.quiz.exception.BadRequestServiceAlertException;
+import com.online.quiz.uitl.Constant;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -50,8 +52,7 @@ public class JwtService {
             Claims claims = Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
             return claims.get("email", String.class);
         } catch (JwtException | IllegalArgumentException e) {
-//            throw new
-            return null;
+            throw new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT);
         }
     }
 }

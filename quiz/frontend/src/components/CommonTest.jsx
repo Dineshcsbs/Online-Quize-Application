@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { toast, ToastContainer } from "react-toastify";
-import { useTestRegisterMutation } from "../service/LoginService";
 import mineType from "../../src/constant/Schema/mediaType/MimeType"
+import { useTestRegisterMutation } from "../service/TestService";
 
 const CommonTest = ({ searchFunction ,status}) => {
 
@@ -107,8 +107,8 @@ const CommonTest = ({ searchFunction ,status}) => {
           </div>
           <hr className="mt-1" />
           <div className="row g-3 g-lg-5 mx-1 mx-lg-3">
-              <div className="align-center">{searchTest?.content.length===0?"No such element is found":""}</div>
-             {searchTest?.content?.map((data) => (
+              <div className="align-center">{searchTest?.data?.content.length===0?"No such element is found":""}</div>
+             {searchTest?.data?.content?.map((data) => (
               
               <div
                 key={data.id}
@@ -151,16 +151,16 @@ const CommonTest = ({ searchFunction ,status}) => {
             ))} 
           </div>
           <div className="d-flex justify-content-center mt-4">
-            {searchTest?.content.length!==0?
+            {searchTest?.data?.content.length!==0?
           <nav aria-label="Page navigation example">
             <ul className="pagination">
-              <li className={`${searchTest?.pageable?.pageNumber===0?"disabled":""}`} onClick={()=>pageNoClick(-1)}>
+              <li className={`${searchTest?.data?.pageable?.pageNumber===0?"disabled":""}`} onClick={()=>pageNoClick(-1)}>
                 <a className="page-link" href="#" aria-label="Previous">
                   <span aria-hidden="true">&laquo;</span>
                 </a>
               </li>
-              <li className="page-item"><a className="page-link" href="#">{searchTest?.pageable?.pageNumber+1}</a></li>
-              <li className={` ${searchTest?.totalPages===searchCurrentPageNo+1 ? 'disabled' : ''} `}>
+              <li className="page-item"><a className="page-link" href="#">{searchTest?.data?.pageable?.pageNumber+1}</a></li>
+              <li className={` ${searchTest?.data?.totalPages===searchCurrentPageNo+1 ? 'disabled' : ''} `}>
                 <a className="page-link" href="#" aria-label="Next" onClick={()=>pageNoClick(1)}>
                   <span aria-hidden="true">&raquo;</span>
                 </a>

@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import practiceImg from "../assets/practiceImg.png";
-import testImg from "../assets/testImg.png";
-import {
-  useAvailableTestQuery,
-  useTestRegisterMutation,
-} from "../service/LoginService";
-import Modal from "../components/Modal";
+import {PATH} from "../../util/index"
 import { useNavigate } from "react-router-dom";
+import { useAvailableTestQuery } from "../../service/LoginService";
+import { useTestRegisterMutation } from "../../service/TestService";
 
 const RegisterTest = () => {
   const navigate=useNavigate();
   const { data: availableTest, error } = useAvailableTestQuery();
-  // console.log(availableTest);
 
   const [register] = useTestRegisterMutation();
 
@@ -20,40 +15,52 @@ const RegisterTest = () => {
   const [selectPackage, setSelectPackage] = useState();
   const [availableData, setAvailableData] = useState([]);
   useEffect(() => {
-    if (availableTest && availableTest.length >= 2 && availableTest[0].length >= 2) {
+    if (availableTest?.data && availableTest?.data.length >= 2 && availableTest?.data[0].length >= 2) {
         setAvailableData([
             {
-                image: testImg,
+                image: PATH.IMAGE.TESTIMG,
                 heading: "Assignment Test",
-                register: availableTest[0][0],
-                available: availableTest[0][1],
+                register: availableTest?.data[0][0],
+                available: availableTest?.data[0][1],
             },
             {
-                image: practiceImg,
+                image: PATH.IMAGE.PRACTICEIMG,
                 heading: "Practice Test",
-                register: availableTest[1][0],
-                available: availableTest[1][1],
+                register: availableTest?.data[1][0],
+                available: availableTest?.data[1][1],
             },
         ]);
     } else {
         console.warn("availableTest does not have the expected structure.");
         setAvailableData([]); 
     }
-}, [availableTest]);
+}, [availableTest?.data]);
 
   if (error != null) {
     return <div>Error in our Page</div>;
   }
 
-  const handleConform = (data) => {
-    setSelectPackage(data);
-    setIsModalOpen(true);
-  };
-  const handleSave = (data) => {
-    register(data?.id);
-    toast.success(`${data?.subject} added successfully!`, { autoClose: 500 });
-    setIsModalOpen(false);
-  };
+  const handleSelect = (data)=>{
+    if(data.heading==="Assignment Test" && availableTest?.data[0][1]!==0){
+      navigate("/register-assignment")
+    }
+    else if(availableTest?.data[1][1]!==0){
+      navigate("/register-test")
+    }
+    else{
+      toast.warn("There is No Package Available right now")
+    }
+  }
+
+  // const handleConform = (data) => {
+  //   setSelectPackage(data);
+  //   setIsModalOpen(true);
+  // };
+  // const handleSave = (data) => {
+  //   register(data?.id);
+  //   toast.success(`${data?.subject} added successfully!`, { autoClose: 500 });
+  //   setIsModalOpen(false);
+  // };
   return (
     <div className={`vh-100 border-0 p-3 bg-secondary bg-opacity-10 `}>
       <ToastContainer />
@@ -62,7 +69,7 @@ const RegisterTest = () => {
         {availableData?.map((data) => (
           <div
             className="card col-11 col-md-5 col-lg-3 mt-4 bg-secondary bg-opacity-25  rounded-4 border-0"
-            key={data?.heading} onClick={()=>navigate(data.heading==="Assignment Test"?"/register-assignment":"/register-test")}
+            key={data?.heading} onClick={()=>handleSelect(data)}
           >
             <h4 className="text-center  mt-3">{data?.heading}</h4>
             <img

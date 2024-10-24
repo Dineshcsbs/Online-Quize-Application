@@ -1,12 +1,12 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import PieChart from "../components/PieChart";
+import PieChart from "../../components/PieChart";
 
 const Result = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const markResult = location.state; 
+  const markResult = location.state?.data; 
   console.log(markResult);
   
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from "react-router-dom";
+import { useRetriveAnswerQuery } from '../../service/LoginService';
 
-import { useRetriveAnswerQuery } from "../service/LoginService";
 
 const AnswerView = () => {
   const location = useLocation();
@@ -20,14 +20,14 @@ const AnswerView = () => {
     );
   }
 
-  if (!answer || Object.keys(answer).length === 0) {
+  if (!answer || Object.keys(answer?.data).length === 0) {
     return <div className="text-center">No answers available.</div>;
   }
 
   return (
     <div className=" bg-secondary bg-opacity-10">
       <div className="p-2 p-md-4 p-lg-5">
-        {answer.map((data, key) => (
+        {answer?.data?.map((data, key) => (
           <div key={data?.question?.id} className={`card  p-3 my-3 `}>
             <h6
               className={`${

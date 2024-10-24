@@ -1,8 +1,8 @@
 import React from "react";
-import CommonTest from "../components/CommonTest";
+import CommonTest from "../../components/CommonTest";
 import {
   useSearchActiveTestQuery,
-} from "../service/LoginService";
+} from "../../service/LoginService";
 
 const Assignment = () => {
   const SearchTestData = (search,searchCurrentPageNo) => {

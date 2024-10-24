@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Icon } from "@iconify/react"; 
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../assets/logo.jpg";
+// import logo from "../assets/logo.jpg";
+import { PATH } from "../util";
 import mineType from "../../src/constant/Schema/mediaType/MimeType"
-import {
-  useAvailablePracticeQuery,
-  usePendingTestQuery,
-  useUserDataQuery,
-} from "../service/LoginService";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
+import { useAvailablePracticeQuery } from "../service/PracticeService";
+import { usePendingTestQuery } from "../service/TestService";
+import { useUserDataQuery } from "../service/LoginService";
 
 const CustomNavbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -18,7 +17,7 @@ const CustomNavbar = () => {
   const { data: pendingTest } = usePendingTestQuery();
   const { data: user } = useUserDataQuery();
 
-  localStorage.setItem("name", user?.name);
+  localStorage.setItem("name", user?.data?.name);
   const navigate = useNavigate();
   const handleNavbarToggle = () => {
     setNavbarOpen(!navbarOpen);
@@ -29,7 +28,7 @@ const CustomNavbar = () => {
       <Container fluid>
         <Navbar.Brand href="#" className="fw-bold bg-dark text-white">
           <img
-            src={logo}
+            src={PATH.IMAGE.LOGO}
             alt="Logo"
             className="rounded-circle"
             style={{ width: "40px", height: "40px" }}
@@ -77,7 +76,7 @@ const CustomNavbar = () => {
               className={"btn bg-dark text-white mb-1 border-0 me-5"}
               children="Assignment"
               onClick={() => {
-                const result = pendingTest;
+                const result = pendingTest?.data;
                 const status = "active";
                 navigate("/assignment", { state: { result, status } });
               }}
@@ -85,9 +84,9 @@ const CustomNavbar = () => {
 
             <NavDropdown
               title={
-                user?.image?
+                user?.data?.image?
                 <img
-                  src={`data:${mineType(user?.image.imageFormat)};base64,${user?.image}`}
+                  src={`data:${mineType(user?.data?.image.imageFormat)};base64,${user?.data?.image}`}
                   alt="profile"
                   className="rounded-circle"
                   style={{ width: "40px", height: "40px" }}

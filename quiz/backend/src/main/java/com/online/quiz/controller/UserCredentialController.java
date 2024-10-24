@@ -5,7 +5,9 @@ import com.online.quiz.dto.SignInRequestDTO;
 import com.online.quiz.dto.SignUpRequestDTO;
 import com.online.quiz.entity.UserCredential;
 import com.online.quiz.service.UserCredentialService;
+import com.online.quiz.uitl.Constant;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,16 +18,18 @@ public class UserCredentialController {
     private final UserCredentialService userCredentialService;
 
     @PostMapping("/register")
-    public UserCredential createUser(@RequestBody final SignUpRequestDTO signUpRequestDTO) {
-        return this.userCredentialService.createCredential(signUpRequestDTO);
+    public ResponseDTO createUser(@RequestBody final SignUpRequestDTO signUpRequestDTO) {
+        return ResponseDTO.builder().message(Constant.CREATE)
+                .data(this.userCredentialService.createCredential(signUpRequestDTO))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @PostMapping("/login")
     public ResponseDTO generateToken(@RequestBody final SignInRequestDTO signInRequestDTO){
         return ResponseDTO.builder()
-                .status(200)
+                .statusCode(HttpStatus.CREATED.value())
                 .data(this.userCredentialService.generateToken(signInRequestDTO))
-                .message("success")
+                .message(Constant.CREATE)
                 .build();
     }
 

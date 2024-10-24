@@ -3,8 +3,10 @@ package com.online.quiz.service;
 import com.online.quiz.dto.SignInRequestDTO;
 import com.online.quiz.dto.SignUpRequestDTO;
 import com.online.quiz.entity.UserCredential;
+import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.UserCredentialRepository;
 import com.online.quiz.uitl.Authority;
+import com.online.quiz.uitl.Constant;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,7 +46,7 @@ public class UserCredentialService {
             return userCredential;
         }
         else{
-            throw new RuntimeException("user already exists");
+            throw  new BadRequestServiceAlertException(Constant.USEREXIT);
         }
     }
 
@@ -52,9 +54,9 @@ public class UserCredentialService {
         return userCredentialRepository.findById(id).map(userCredential -> {
                     userCredential.setIsRemoved(true);
                     this.userCredentialRepository.save(userCredential);
-                    return "User Removed Successfully";
+                    return Constant.DELETE;
                 })
-                .orElseThrow();
+                .orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public String generateToken(final SignInRequestDTO signInRequestDTO) {
@@ -70,8 +72,7 @@ public class UserCredentialService {
             return this.jwtService.generateToken(signInRequestDTO.getEmail(),userId,role);
         }
         else{
-//            throw new
-            return "User Name or password is in valid";
+            throw  new BadRequestServiceAlertException(Constant.CREDENTIALS_MISMATCH);
         }
 
     }

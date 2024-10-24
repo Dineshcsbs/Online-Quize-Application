@@ -1,13 +1,13 @@
 import React from "react";
-import Card from "../components/Card";
-import { SignUpSchema } from "../constant/Schema/SignUpSchema";
+import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import Select from "../components/DropDown";
-import { useNavigate } from "react-router-dom";
-import { useUserSignMutation } from "../service/LoginService";
+import Card from "../../components/Card";
+import { SignUpSchema } from "../../constant/Schema/SignUpSchema";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import Select from "../../components/DropDown";
+import { useUserSignMutation } from "../../service/LoginService";
 
 const state = ["name", "email", "password", "age", "designition"];
 const designationOptions = ["software", "tester"];

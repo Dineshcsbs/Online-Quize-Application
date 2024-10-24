@@ -3,7 +3,9 @@ package com.online.quiz.service;
 import com.online.quiz.dto.SignUpRequestDTO;
 import com.online.quiz.entity.Admin;
 import com.online.quiz.entity.UserCredential;
+import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.AdminRepository;
+import com.online.quiz.uitl.Constant;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,7 @@ public class AdminService {
     }
 
     public Admin getAdmin(final String id) {
-        return this.adminRepository.findById(id).orElseThrow();
+        return this.adminRepository.findById(id).orElseThrow(()-> new BadRequestServiceAlertException(Constant.NOT_FOUND));
     }
 
     public List<Admin> getAllAdmin() {
@@ -42,7 +44,7 @@ public class AdminService {
                 adminInfo.setPhoneNumber(admin.getPhoneNumber());
             }
             return this.adminRepository.save(adminInfo);
-        }).orElseThrow();
+        }).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
 }

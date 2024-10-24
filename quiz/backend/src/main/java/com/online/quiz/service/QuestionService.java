@@ -3,8 +3,10 @@ package com.online.quiz.service;
 import com.online.quiz.dto.AnswerDTO;
 import com.online.quiz.dto.QuestionDTO;
 import com.online.quiz.entity.Question;
+import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.AnswerRepository;
 import com.online.quiz.repository.QuestionRepository;
+import com.online.quiz.uitl.Constant;
 import com.online.quiz.uitl.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,7 @@ public class QuestionService {
     }
 
     public Question getQuestion(final String id) {
-        return this.questionRepository.findById(id).orElseThrow();
+        return this.questionRepository.findById(id).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public Question updateQuestion(final String id, final Question question) {
@@ -54,7 +56,7 @@ public class QuestionService {
                 questionInfo.setAnswer(question.getAnswer());
             }
             return this.questionRepository.save(questionInfo);
-        }).orElseThrow();
+        }).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public QuestionDTO retriveQuestion() {
@@ -65,7 +67,7 @@ public class QuestionService {
         return this.questionRepository.findById(id).map(question -> {
             questionRepository.deleteById(id);
             return "Id removed Success";
-        }).orElseThrow();
+        }).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
     public List<QuestionDTO> getQuestionSet(String setId) {

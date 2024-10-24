@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UpdateSchema } from "../constant/Schema/UpdateSchema";
+import { UpdateSchema } from "../../constant/Schema/UpdateSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import "react-toastify/dist/ReactToastify.css";
-import mineType from "../../src/constant/Schema/mediaType/MimeType"
-import Button from "../components/Button";
-import Input from "../components/Input";
-import Select from "../components/DropDown";
-import { useForm } from "react-hook-form";
-import { useUpdateUserMutation, useUserDataQuery } from "../service/LoginService";
 import { toast, ToastContainer } from "react-toastify";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import mineType from "../../../src/constant/Schema/mediaType/MimeType"
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import Select from "../../components/DropDown";
+import { useForm } from "react-hook-form";
+import { useUpdateUserMutation, useUserDataQuery } from "../../service/LoginService";
 
 const fieldData = ["name", "age", "designition", "phoneNumber", "gender"];
 const designationOptions = ["software", "tester"];
@@ -19,7 +18,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const { data: userData } = useUserDataQuery();
   const [updateUserInfo]=useUpdateUserMutation();
-  // console.log(userData);
 
   const [updateStatus, setUpdateStatus] = useState(false);
   const [image, setImage] = useState(null);
@@ -39,16 +37,16 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    if (userData) {
+    if (userData?.data) {
       reset({
-        name: userData?.userCredential?.name || "",
-        age: userData?.age || "",
-        designition: userData?.designition || "",
-        phoneNumber: userData?.phoneNumber || "",
-        gender: userData?.gender || "",
+        name: userData?.data?.userCredential?.name || "",
+        age: userData?.data?.age || "",
+        designition: userData?.data?.designition || "",
+        phoneNumber: userData?.data?.phoneNumber || "",
+        gender: userData?.data?.gender || "",
       });
     }
-  }, [userData, reset]);
+  }, [userData?.data, reset]);
 
   const submit = async (data) => {
     try {
@@ -81,15 +79,15 @@ const Profile = () => {
       {!updateStatus && (
         <>
           <div className="ms-5">
-            {userData?.image?<img
-                  src={`data:${mineType(userData?.image.imageFormat)};base64,${userData?.image}`}
+            {userData?.data?.image?<img
+                  src={`data:${mineType(userData?.data?.image.imageFormat)};base64,${userData?.data?.image}`}
                   alt="profile"
                   className="rounded-circle"
                   style={{ width: "100px", height: "100px", alignItems: "center" }}
                 />:<Icon icon="ion:person-sharp" width="70" height="70"   />}
 
           </div>
-          <p className="ms-5 ">{userData?.userCredential?.email}</p>
+          <p className="ms-5 ">{userData?.data?.userCredential?.email}</p>
         </>
       )}
       <form onSubmit={handleSubmit(submit)} className="mx-2 mx-md-5  ">

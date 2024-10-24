@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
-import { LoginSchema } from "../constant/Schema/LoginSchema";
+import { LoginSchema } from "../../constant/Schema/LoginSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import Card from "../components/Card";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import { useLoginUserMutation } from "../service/LoginService";
+import Card from "../../components/Card";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import { useLoginUserMutation } from "../../service/LoginService";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const login = [
   { name: "email", type: "email" },

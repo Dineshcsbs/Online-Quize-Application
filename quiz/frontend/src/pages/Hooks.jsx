@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
-const CountdownTimer = () => {
+const CountdownTimer = ({ onTimerEnd }) => {
     const [timeLeft, setTimeLeft] = useState(1800); 
-    const [isActive, setIsActive] = useState(true); 
 
     useEffect(() => {
         let intervalId;
 
-        if (isActive && timeLeft > 0) {
+        if ( timeLeft > 0) {
             intervalId = setInterval(() => {
                 setTimeLeft(prevTime => {
-                    if (prevTime <= 1) {
-                        clearInterval(intervalId);
-                        window.close(); 
-                        return 0;
-                    }
                     return prevTime - 1;
                 });
             }, 1000);
         }
+        else {
+            clearInterval(intervalId);
+            onTimerEnd();
+        }
 
         return () => clearInterval(intervalId); 
-    }, [isActive, timeLeft]);
+    }, [ timeLeft,onTimerEnd]);
 
-    const handleStart = () => {
-        setIsActive(true);
-    };
+    // const handleStart = () => {
+    //     setIsActive(true);
+    // };
     const hours = Math.floor(timeLeft / 3600);
     const minutes = Math.floor((timeLeft % 3600) / 60);
     const seconds = timeLeft % 60;

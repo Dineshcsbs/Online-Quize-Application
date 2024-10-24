@@ -1,18 +1,15 @@
 package com.online.quiz.controller;
 
-//import com.online.quiz.dto.AnswerDTO;
-import com.online.quiz.dto.QuestionDTO;
-import com.online.quiz.dto.ResponseMarkResult;
-import com.online.quiz.entity.Question;
+import com.online.quiz.dto.ResponseDTO;
 import com.online.quiz.entity.Test;
 import com.online.quiz.service.TestService;
+import com.online.quiz.uitl.Constant;
 import lombok.AllArgsConstructor;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,8 +20,10 @@ public class TestController {
     private final TestService testService;
 
     @PostMapping("/test/{id}")
-    public Test createTest(@PathVariable final String id) {
-        return this.testService.createTest(id);
+    public ResponseDTO createTest(@PathVariable final String id) {
+        return ResponseDTO.builder().message(Constant.CREATE)
+                .data(this.testService.createTest(id))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 //    @PostMapping("/test")
 //    public Test createTest(@RequestBody final Test test) {
@@ -37,18 +36,24 @@ public class TestController {
 //    }
 
     @GetMapping("/test/{id}")
-    public Test testById(@PathVariable final String id) {
-        return this.testService.getTestById(id);
+    public ResponseDTO testById(@PathVariable final String id) {
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getTestById(id))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/test-completed")
-    public List<Test> activeTest() {
-        return this.testService.getAllCompletedTest();
+    public ResponseDTO activeTest() {
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getAllCompletedTest())
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/practice")
-    public List<Test> practiceTest(){
-        return this.testService.getPracticeTest();
+    public ResponseDTO practiceTest(){
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getPracticeTest())
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
 //    @GetMapping("/practice-question/{id}")
@@ -57,23 +62,31 @@ public class TestController {
 //    }
 
     @GetMapping("/test-set-question/{id}")
-    public List<QuestionDTO> retriveQuestionSet(@PathVariable final String id){
-        return this.testService.retriveQuestionSet(id);
+    public ResponseDTO retriveQuestionSet(@PathVariable final String id){
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.retriveQuestionSet(id))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @PutMapping("/test/{id}")
-    public Test updatedTest(@PathVariable final String id, @RequestBody final Test test) {
-        return this.testService.updateTest(id, test);
+    public ResponseDTO updatedTest(@PathVariable final String id, @RequestBody final Test test) {
+        return ResponseDTO.builder().message(Constant.UPDATED)
+                .data(this.testService.updateTest(id, test))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/test-user")
-    public List<Test> getAllTest(){
-        return this.testService.getTestUser();
+    public ResponseDTO getAllTest(){
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getTestUser())
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/active-test")
-    public List<Test> getPendingTest(){
-        return this.testService.getPendingTest();
+    public ResponseDTO getPendingTest(){
+        return ResponseDTO.builder().message(Constant.CREATE)
+                .data(this.testService.getPendingTest())
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 //    @GetMapping("/active-test-search")
 //    public Page<Test> getPendingTest(@RequestParam(defaultValue = "0") final int pageNo){
@@ -82,45 +95,56 @@ public class TestController {
 //    }
 
     @GetMapping("/search-assignment")
-    public Page<Test> getactiveTest(@RequestParam(required = false) String search,
+    public ResponseDTO getactiveTest(@RequestParam(required = false) String search,
                                     @RequestParam(defaultValue = "0") final int pageNo,
                                     @RequestParam(defaultValue = "4") final int pageSize,
                                     @RequestParam(defaultValue = "id") final String fieldName,
                                     @RequestParam(defaultValue = "ASC") final Sort.Direction direction){
-        return this.testService.getSearchAssignment(search, pageNo, pageSize, fieldName, direction);
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getSearchAssignment(search, pageNo, pageSize, fieldName, direction))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/search-completed-test")
-    public Page<Test> getCompletedTest(@RequestParam(required = false) String search,
+    public ResponseDTO getCompletedTest(@RequestParam(required = false) String search,
                                        @RequestParam(defaultValue = "0") final int pageNo,
                                        @RequestParam(defaultValue = "4") final int pageSize,
                                        @RequestParam(defaultValue = "id") final String fieldName,
                                        @RequestParam(defaultValue = "ASC") final Sort.Direction direction) {
-        return this.testService.getCompletedTestSearch(search, pageNo, pageSize, fieldName, direction);
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getCompletedTestSearch(search, pageNo, pageSize, fieldName, direction))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/search-practice-test")
-    public Page<Test> getPracticeSearch(@RequestParam(required = false) String search,
+    public ResponseDTO getPracticeSearch(@RequestParam(required = false) String search,
                                         @RequestParam(defaultValue = "0") final int pageNo,
                                         @RequestParam(defaultValue = "4") final int pageSize,
                                         @RequestParam(defaultValue = "id") final String fieldName,
                                         @RequestParam(defaultValue = "ASC") final Sort.Direction direction){
-        return this.testService.getPracticeTestSearch(search, pageNo, pageSize, fieldName, direction);
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getPracticeTestSearch(search, pageNo, pageSize, fieldName, direction))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/average-mark")
-    public Float averageMark(){
-        return  this.testService.getAverageMark();
+    public ResponseDTO averageMark(){
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.testService.getAverageMark())
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @DeleteMapping("/test/{id}")
-    public String deleteTest(@PathVariable final String id) {
-        return this.testService.deleteTest(id);
+    public ResponseDTO deleteTest(@PathVariable final String id) {
+        return ResponseDTO.builder().message(Constant.DELETE)
+                .data(this.testService.deleteTest(id))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 
-
     @PostMapping("/mark/{id}")
-    public ResponseMarkResult getTestService(@PathVariable final String id, @RequestBody final Map<String, String> answerDTO) {
-        return this.testService.answer(id,answerDTO);
+    public ResponseDTO getTestService(@PathVariable final String id, @RequestBody final Map<String, String> answerDTO) {
+        return ResponseDTO.builder().message(Constant.CREATE)
+                .data(this.testService.answer(id,answerDTO))
+                .statusCode(HttpStatus.CREATED.value()).build();
     }
 }

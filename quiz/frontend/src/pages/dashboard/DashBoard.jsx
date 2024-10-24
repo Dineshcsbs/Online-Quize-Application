@@ -1,22 +1,18 @@
 import React from "react";
-import AvgMArk from "../assets/AvgMark.png";
-import PracticeTest from "../assets/PracticeTest.png";
-import TestComplete from "../assets/TestComplete.png";
-import TestPending from "../assets/TestPending.png";
-import { useAvailablePracticeQuery, useAverageMarkQuery, usePendingTestQuery, useTestCompletedQuery } from "../service/LoginService";
+import {PATH} from "../../util/index"
 import { useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import { usePendingTestQuery, useTestCompletedQuery } from "../../service/TestService";
+import { useAverageMarkQuery } from "../../service/LoginService";
+import { useAvailablePracticeQuery } from "../../service/PracticeService";
 const DashBoard = () => {
-  // const { data: test } = useTestUserQuery();
   const {data:testComplete} = useTestCompletedQuery();
   const {data:averageMark}=useAverageMarkQuery();
   const {data:availablePracticeTest}=useAvailablePracticeQuery()
-  // const { data: activeTest } = useTestUserQuery();
   const {data:pendingTest}=usePendingTestQuery();
+console.log(averageMark);
 
   const navigate = useNavigate();
   const handleClick=(value)=>{
-// console.log(test+" ds,d,l");
 
     if(value===1){
       // const status="completed";
@@ -64,11 +60,11 @@ const DashBoard = () => {
               <div className="row mt-3 mx-3">
                 <div className="col-6">
 
-                  <h5>{testComplete && testComplete.length}</h5>
+                  <h5>{testComplete?.data && testComplete?.data.length}</h5>
                 </div>
                 <div className="col-6 text-end">
                   <img
-                    src={TestComplete}
+                    src={PATH.IMAGE.TESTCOMPLETED}
                     alt=""
                     width="50"
                     height="50"
@@ -90,11 +86,11 @@ const DashBoard = () => {
               ></div>
               <div className="row mt-3 mx-3">
                 <div className="col-6">
-                  <h5>{availablePracticeTest && availablePracticeTest.length}</h5>
+                  <h5>{availablePracticeTest?.data && availablePracticeTest?.data.length}</h5>
                 </div>
                 <div className="col-6 text-end">
                   <img
-                    src={PracticeTest}
+                    src={PATH.IMAGE.PRACTICETEST}
                     alt=""
                     width="50"
                     height="50"
@@ -114,11 +110,11 @@ const DashBoard = () => {
               ></div>
               <div className="row mt-3 mx-3">
                 <div className="col-6">
-                  <h5>{pendingTest && pendingTest.length}</h5>
+                  <h5>{pendingTest?.data && pendingTest?.data.length}</h5>
                 </div>
                 <div className="col-6 text-end">
                   <img
-                    src={TestPending}
+                    src={PATH.IMAGE.TEST}
                     alt=""
                     width="50"
                     height="50"
@@ -138,11 +134,11 @@ const DashBoard = () => {
               ></div>
               <div className="row mt-3 mx-3">
                 <div className="col-6">
-                  <h5>{averageMark?.toFixed(2)}</h5>
+                  <h5>{averageMark?.data?.toFixed(2)}</h5>
                 </div>
                 <div className="col-6 text-end">
                   <img
-                    src={AvgMArk}
+                    src={PATH.IMAGE.AVGMARK}
                     alt=""
                     width="50"
                     height="50"
