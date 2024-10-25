@@ -1,5 +1,6 @@
 package com.online.quiz.controller;
 
+import com.online.quiz.dto.QuestionSetDTO;
 import com.online.quiz.dto.ResponseDTO;
 import com.online.quiz.entity.QuestionSet;
 import com.online.quiz.entity.User;
@@ -22,11 +23,12 @@ import java.util.List;
 public class QuestionSetController {
     private final QuestionSetService questionSetService;
 
-    @PostMapping("/question-set/{subject}")
-    public ResponseDTO createQuestionSet(@PathVariable String subject) {
+    @PostMapping("/question-set")
+    public ResponseDTO createQuestionSet(@ModelAttribute QuestionSetDTO questionSetDTO) throws IOException {
+        System.out.println(questionSetDTO);
         return ResponseDTO.builder().message(Constant.CREATE)
-                .data(this.questionSetService.createQuestionSet(subject))
-                .statusCode(HttpStatus.FOUND.value()).build();
+                .data(this.questionSetService.createQuestionSet(questionSetDTO))
+                .statusCode(200).build();
 
     }
 

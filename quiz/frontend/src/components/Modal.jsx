@@ -43,5 +43,4 @@ const Modal = ({ isOpen, onClose, onSave, title, children,buttonName }) => {
     </div>
   );
 };
-
 export default Modal;

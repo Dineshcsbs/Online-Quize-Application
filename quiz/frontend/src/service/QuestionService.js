@@ -16,9 +16,9 @@ export const QuestionService = createApi({
     }),
     // tagType: ["register", "finish","active"],
     endpoints: (build) => ({
-      createQuestion: build.mutation({
+      createQuestionSet: build.mutation({
         query: (data) => ({
-          url: `auth/register`,
+          url: `api/v1/question-set`,
           method: "POST",
           body: data,
         }),
@@ -26,4 +26,4 @@ export const QuestionService = createApi({
     }),
 });
 
-export const {}=QuestionService;
+export const {useCreateQuestionSetMutation}=QuestionService;

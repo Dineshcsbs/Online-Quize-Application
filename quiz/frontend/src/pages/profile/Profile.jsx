@@ -4,7 +4,7 @@ import { UpdateSchema } from "../../constant/Schema/UpdateSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast, ToastContainer } from "react-toastify";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import mineType from "../../../src/constant/Schema/mediaType/MimeType"
+import mineType from "../../../src/constant/mediaType/MimeType"
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Select from "../../components/DropDown";

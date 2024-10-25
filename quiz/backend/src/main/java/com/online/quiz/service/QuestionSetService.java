@@ -1,5 +1,6 @@
 package com.online.quiz.service;
 
+import com.online.quiz.dto.QuestionSetDTO;
 import com.online.quiz.entity.QuestionSet;
 import com.online.quiz.entity.Test;
 import com.online.quiz.exception.BadRequestServiceAlertException;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,8 +25,9 @@ public class QuestionSetService {
     private final QuestionSetRepository questionSetRepository;
     private final TestService testService;
 
-    public QuestionSet createQuestionSet(final String subject) {
-        return this.questionSetRepository.save(QuestionSet.builder().subject(subject).isRemoved(false).build());
+    public QuestionSet createQuestionSet(final QuestionSetDTO questionSetDTO) throws IOException {
+        return this.questionSetRepository.save(QuestionSet.builder().subject(questionSetDTO.getSubject())
+                .isRemoved(false).isPractice(questionSetDTO.getChoise()).image(questionSetDTO.getImage().getBytes()).build());
     }
 
     public QuestionSet getQuestionSet(final String id) {

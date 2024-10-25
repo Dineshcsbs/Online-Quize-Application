@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { toast, ToastContainer } from "react-toastify";
-import mineType from "../../src/constant/Schema/mediaType/MimeType"
+import mineType from "../../src/constant/mediaType/MimeType"
 import { useTestRegisterMutation } from "../service/TestService";
 
 const CommonTest = ({ searchFunction ,status}) => {

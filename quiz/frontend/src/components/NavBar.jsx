@@ -4,10 +4,11 @@ import { Icon } from "@iconify/react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import logo from "../assets/logo.jpg";
 import { PATH } from "../util";
-import mineType from "../../src/constant/Schema/mediaType/MimeType"
+import mineType from "../../src/constant/mediaType/MimeType"
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { useAvailablePracticeQuery } from "../service/PracticeService";
+
 import { usePendingTestQuery } from "../service/TestService";
 import { useUserDataQuery } from "../service/LoginService";
 

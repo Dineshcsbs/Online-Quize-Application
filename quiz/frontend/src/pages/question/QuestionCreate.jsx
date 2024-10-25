@@ -7,10 +7,12 @@ import Input from "../../components/Input";
 import Label from "../../components/Label";
 import TextArea from "../../components/TextArea";
 import Button from "../../components/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const QuestionCreate = () => {
   const navigate = useNavigate();
+  const questionSetId=useLocation();
+  console.log(questionSetId);
   const questionField = ['question', 'option1', 'option2', 'option3', 'option4', 'ans'];
   const buttonField = ['Exit', 'Submit', 'Reset'];
 

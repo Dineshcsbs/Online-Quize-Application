@@ -10,4 +10,8 @@ export const USER_DASHBOARD_IMAGE_DATA=[PATH.IMAGE.TESTCOMPLETED,PATH.IMAGE.PRAC
 
 export const DASHBOARD_COLOR=['primary','success','danger','primary'];
 
-export const QUESTION=['Subject Name','Image ','Set Choise'];
+export const QUESTION = {
+    subject: ['Subject Name', 'text'],
+    image: ['Image', 'file'],
+    choise: ['Set Choice', 'radio'] 
+};
