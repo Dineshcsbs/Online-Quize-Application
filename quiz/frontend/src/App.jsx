@@ -17,6 +17,8 @@ import TestWindow from "./pages/test/TestWindow";
 import AnswerView from "./pages/answer/AnswerView";
 import Result from "./pages/result/Result";
 import RegisterTest from "./pages/register-package/RegisterTest";
+import QuestionCreate from "./pages/question/QuestionCreate";
+import QuestionSet from "./pages/question/QuestionSet";
 
 function App() {
 
@@ -37,6 +39,8 @@ function App() {
           <Route path="/register-test" element={<RegisterPractice/>}/>
           <Route path="/common" element={<CommonTest/>}/>
           <Route path="/register" element={<RegisterTest/>}/>
+          <Route path="/question-create" element={<QuestionCreate/>}/>
+          <Route path="/question-set" element={<QuestionSet/>}/>
         </Route>
         <Route path="/test" element={<TestWindow/>}/>
         <Route path="/result" element={<Result/>}/>

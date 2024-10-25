@@ -12,6 +12,7 @@ const Store = configureStore({
     [ProfileService.reducerPath]:ProfileService.reducer,
     [TestCompleteService.reducerPath]:TestCompleteService.reducer,
     [TestService.reducerPath]:TestService.reducer,
+    
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({}).concat([

@@ -18,6 +18,7 @@ const CustomNavbar = () => {
   const { data: user } = useUserDataQuery();
 
   localStorage.setItem("name", user?.data?.name);
+  // localStorage.setItem("role",user?.data?.userCredential?.authority);
   const navigate = useNavigate();
   const handleNavbarToggle = () => {
     setNavbarOpen(!navbarOpen);
@@ -58,6 +59,14 @@ const CustomNavbar = () => {
           className={navbarOpen ? "show" : ""}
         >
           <Nav className="ms-auto">
+            {localStorage.getItem('role')==='ADMIN'?<Button
+              className={"btn bg-dark text-white mb-1 border-0 me-5"}
+              children="Question"
+              onClick={() => navigate("/question-create")}
+            />:""
+            }
+          
+
             <Button
               className={"btn bg-dark text-white mb-1 border-0 me-5"}
               children="DashBoard"

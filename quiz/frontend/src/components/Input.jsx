@@ -1,5 +1,5 @@
+import React from 'react';
 
-import React from 'react'
 const Input = ({
   type,
   value,
@@ -15,12 +15,15 @@ const Input = ({
   autoFocus,
   autoComplete,
   register,
+  onClick,
+  style
 }) => {
   return (
     <input
       type={type}
       value={value}
-      onChange={onChange}
+      onChange={onChange} 
+      onClick={onClick}   
       placeholder={placeholder}
       name={name}
       disabled={disabled}
@@ -31,7 +34,8 @@ const Input = ({
       required={required}
       autoFocus={autoFocus}
       autoComplete={autoComplete}
-      {...register}
+      style={style}
+      {...register} 
     />
   );
 };

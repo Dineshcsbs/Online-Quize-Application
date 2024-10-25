@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-//@RequestMapping("/api/v1")
+@RequestMapping("/api/v1")
 //@AllArgsConstructor
 public class UserController {
 
@@ -23,7 +23,7 @@ public class UserController {
         this.userService=userService;
     }
 
-    @GetMapping("/api/v1/user-info")
+    @GetMapping("/user-info")
     public ResponseDTO getUserInfo(){
         return ResponseDTO.builder().message(Constant.RETRIEVE)
                 .data(this.userService.getUserDetail())
