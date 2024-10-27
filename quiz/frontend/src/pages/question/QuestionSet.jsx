@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 const QuestionSet = () => {
     const navigate=useNavigate();
-  const [questionSetData]=useCreateQuestionSetMutation();
+  const [questionSetData, {isSuccess: questionSetDataSuccessful}]=useCreateQuestionSetMutation();
     const {
         register,
         handleSubmit,
@@ -21,21 +21,26 @@ const QuestionSet = () => {
       } = useForm({
         resolver: yupResolver(QuestionSetSchema),
       });
+    //   console.log("inside component");
+      
       const submit = async (data) => {
         try {
             const formData = new FormData();
             formData.append("subject", data.subject);
             formData.append("image", data.image[0]);
             formData.append("choise", data.choise);
+            
 
-            const response = await questionSetData(formData);
-            console.log('Created successfully:', response);
-            navigate("/question-create", { state: { data: response } });
+            const response = await questionSetData(formData); 
+            // console.log(response?.data?.data);
+            navigate("/question-create", { state: { data: response?.data?.data } });
+
         } catch (e) {
             console.error('Submission failed:', e);
             alert('Failed to create question set. Please try again.');
         }
     };
+    
     
 
   return (

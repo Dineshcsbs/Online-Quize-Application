@@ -19,6 +19,7 @@ import Result from "./pages/result/Result";
 import RegisterTest from "./pages/register-package/RegisterTest";
 import QuestionCreate from "./pages/question/QuestionCreate";
 import QuestionSet from "./pages/question/QuestionSet";
+import QuestionSetPage from "./pages/question/QuestionSetPage";
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/register" element={<RegisterTest/>}/>
           <Route path="/question-create" element={<QuestionCreate/>}/>
           <Route path="/question-set" element={<QuestionSet/>}/>
+          <Route path="/question-set-page" element={<QuestionSetPage/>}/>
         </Route>
         <Route path="/test" element={<TestWindow/>}/>
         <Route path="/result" element={<Result/>}/>

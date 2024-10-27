@@ -30,4 +30,9 @@ public interface QuestionSetRepository extends JpaRepository<QuestionSet, String
             "AND qs.isPractice = true " +
             "AND (:search IS NULL OR LOWER(qs.subject) LIKE LOWER(CONCAT('%', :search, '%')))")
     Page<QuestionSet> findAllByIdNotInAndIsPracticeIsTrue(List<String> setId, String search, Pageable pageable);
+
+    @Query("SELECT qs FROM QuestionSet qs WHERE  " +
+            " qs.isPractice = false " +
+            "AND (:search IS NULL OR LOWER(qs.subject) LIKE LOWER(CONCAT('%', :search, '%')))")
+    Page<QuestionSet> findAllByIsRemovedIsFalse(String search, Pageable pageable);
 }

@@ -4,6 +4,7 @@ import { PracticeService } from "./PracticeService";
 import { ProfileService } from "./ProfileService";
 import { TestCompleteService } from "./TestCompleteService";
 import { TestService } from "./TestService";
+import { QuestionService } from "./QuestionService";
 
 const Store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const Store = configureStore({
     [ProfileService.reducerPath]:ProfileService.reducer,
     [TestCompleteService.reducerPath]:TestCompleteService.reducer,
     [TestService.reducerPath]:TestService.reducer,
+    [QuestionService.reducerPath]:QuestionService.reducer,
     
   },
   middleware: (getDefaultMiddleware) =>
@@ -21,6 +23,7 @@ const Store = configureStore({
       ProfileService.middleware,
       TestCompleteService.middleware,
       TestService.middleware,
+      QuestionService.middleware,
     ]),
 });
 

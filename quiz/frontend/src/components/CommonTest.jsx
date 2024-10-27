@@ -19,6 +19,8 @@ const CommonTest = ({ searchFunction ,status}) => {
   const [search, setSearch] = useState("");
 
   const { searchTest, error } = searchFunction(search,searchCurrentPageNo); 
+  // console.log(searchTest);
+  
   const [register] = useTestRegisterMutation();
 
   const handleKeyDown = (event) => {
@@ -33,15 +35,20 @@ const CommonTest = ({ searchFunction ,status}) => {
 
   const handleConform = (data) => {
     setPackages(data);
-    setSelectPackage( status.startsWith('register')?data?.subject:data?.questionSet?.subject);
+    setSelectPackage( status.startsWith('register')||status.startsWith('Question')?data?.subject:data?.questionSet?.subject);
     setIsModalOpen(true);
   };
 
   const startTest = () => {
     if( status.startsWith('register')){
-      console.log(packages.id);
+      // console.log(packages.id);
       
       handleSave(packages);
+    }
+    if(status.startsWith('Question')){
+      console.log(packages);
+      navigate("/question-create", { state: { data: packages } });
+      // navigate("/question-create",{ state: { data: packages } })
     }
     else{
     navigate(
@@ -107,7 +114,7 @@ const CommonTest = ({ searchFunction ,status}) => {
           </div>
           <hr className="mt-1" />
           <div className="row g-3 g-lg-5 mx-1 mx-lg-3">
-              <div className="align-center">{searchTest?.data?.content.length===0?"No such element is found":""}</div>
+              <div className="align-center">{searchTest?.data?.content?.length===0?"No such element is found":""}</div>
              {searchTest?.data?.content?.map((data) => (
               
               <div
@@ -125,14 +132,16 @@ const CommonTest = ({ searchFunction ,status}) => {
                   ></div>
                   <div className="row mt-3 mx-3">
                     <div className="col-6">
-                      <h5>{status.startsWith('register')?data?.subject:data?.questionSet?.subject}</h5>
+                      {/* {console.log(data?.subject)
+                      } */}
+                      <h5>{status.startsWith('register') || status.startsWith('Question')?data?.subject:data?.questionSet?.subject}</h5>
                     </div>
                     <div className="col-6 text-end">
                       {/* {console.log(data.image)
                         } */}
                       {data?.image||data?.questionSet?.image ? (
                       <img
-                          src={`data:${mineType(`${status.startsWith('register')?data.image:data?.questionSet?.image}`.imageFormat)};base64,${status.startsWith('register')?data.image:data?.questionSet?.image}`}
+                          src={`data:${mineType(`${status.startsWith('register') || status.startsWith('Question')?data.image:data?.questionSet?.image}`.imageFormat)};base64,${status.startsWith('register') || status.startsWith('Question')?data.image:data?.questionSet?.image}`}
                           alt="Image"
                           width="50"
                           height="50"
@@ -144,7 +153,7 @@ const CommonTest = ({ searchFunction ,status}) => {
                   <div className="fw ms-4 my-3">
                     {status === "completed"
                       ? `Mark Score: ${data?.mark}`
-                      : `Basic Level ${status.startsWith('register')?data?.subject:data?.questionSet?.subject}`}
+                      : `Basic Level ${status.startsWith('register') || status.startsWith('Question')?data?.subject:data?.questionSet?.subject}`}
                   </div>
                 </div>
               </div>
@@ -178,14 +187,14 @@ const CommonTest = ({ searchFunction ,status}) => {
         onSave={startTest}
         title={`${selectPackage} Package`}
         buttonName={`${
-          status === "active" || status === "practice" ? "Start" : status.startsWith('register')?"Add":"Answer"
+          status === "active" || status === "practice" ? "Start" : status.startsWith('register')?"Add":status.startsWith('Question')?"Create":"Answer"
         } `}
       >
         <p>
           {`${
             status === "active" || status === "practice"
               ? "Are you ready for "
-              :  status.startsWith('register')?"Are you sure you add package?":"Do you want to see the answer?"
+              :  status.startsWith('register')?"Are you sure you add package?":status.startsWith('Question')?"Create new question":"Do you want to see the answer?"
           }`}
           <span className="fw-bold">{selectPackage}</span>{" "}
           {`${status === "active" || status === "practice" ? "test?" : ""}`}

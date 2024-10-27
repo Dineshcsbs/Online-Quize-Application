@@ -50,6 +50,17 @@ public class QuestionSetController {
 //        return this.questionSetService.getAllUnRegisterSet();
 //    }
 
+    @GetMapping("/question-set-search")
+    public ResponseDTO getQuestionSetSearch(@RequestParam(required = false) String search,
+                                     @RequestParam(defaultValue = "0") final int pageNo,
+                                     @RequestParam(defaultValue = "4") final int pageSize,
+                                     @RequestParam(defaultValue = "id") final String fieldName,
+                                     @RequestParam(defaultValue = "ASC") final Sort.Direction direction){
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.questionSetService.getQuestionSetSearch(search, pageNo, pageSize, fieldName, direction))
+                .statusCode(HttpStatus.CREATED.value()).build();
+    }
+
     @GetMapping("/assignment-unregister")
     public ResponseDTO getUnRegisterAssinment(@RequestParam(required = false) String search,
                                                     @RequestParam(defaultValue = "0") final int pageNo,

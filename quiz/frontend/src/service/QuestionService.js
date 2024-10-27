@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PATH } from "../util/index";
 
 export const QuestionService = createApi({
-    reducerPath: "ProfileService",
+    reducerPath: "QuestionService",
     baseQuery: fetchBaseQuery({
       baseUrl: PATH.BASE_URL,
       prepareHeaders: (headers) => {
@@ -10,20 +10,35 @@ export const QuestionService = createApi({
         if (token) {
           headers.set("Authorization", `Bearer ${token}`);
         }
-        // headers.set('Content-Type', 'application/json');
         return headers;
       },
     }),
-    // tagType: ["register", "finish","active"],
+    tagTypes:['count'],
     endpoints: (build) => ({
       createQuestionSet: build.mutation({
         query: (data) => ({
-          url: `api/v1/question-set`,
-          method: "POST",
+            url: `api/v1/question-set`,
+            method: "POST",
+            body: data,
+        }),
+      }),
+
+      countQuestion: build.query({
+        query:(id)=>`api/v1/count-question-set/${id}`,
+        providesTags:['count'],
+      }),
+      createQuestion: build.mutation({
+        query: (data)=>({
+          url:`api/v1/question`,
+          method:'POST',
           body: data,
         }),
+        invalidatesTags:['count']
+      }),
+      questionSetSearch: build.query({
+        query:({search,searchCurrentPageNo})=>`api/v1/question-set-search?pageNo=${searchCurrentPageNo}${search.length===0?"":`&search=${search}`}`,
       }),
     }),
 });
 
-export const {useCreateQuestionSetMutation}=QuestionService;
+export const { useCreateQuestionSetMutation,useCountQuestionQuery ,useCreateQuestionMutation,useQuestionSetSearchQuery} = QuestionService;

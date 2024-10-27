@@ -63,7 +63,7 @@ export const LoginService = createApi({
           "Content-Type": "application/json", // Set the correct Content-Type
         },
         body: JSON.stringify(data),
-        invalidatesTags: ["finish"],
+        // invalidatesTags: ["finish"],
       }),
     }),
     // testCompleted: build.query({

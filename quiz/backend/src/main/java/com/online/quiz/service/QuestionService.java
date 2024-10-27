@@ -100,4 +100,8 @@ public class QuestionService {
         });
         return answerDTO;
     }
+
+    public Integer getCountOfQuestion(String id) {
+        return this.questionRepository.findAllByQuestionSet_Id(id).size();
+    }
 }

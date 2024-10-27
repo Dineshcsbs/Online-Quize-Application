@@ -40,6 +40,12 @@ public class QuestionController {
                 .statusCode(HttpStatus.FOUND.value()).build();
     }
 
+    @GetMapping("/count-question-set/{id}")
+    public ResponseDTO getCountOfQuestion(@PathVariable final String id){
+        return ResponseDTO.builder()
+                .message(Constant.RETRIEVE).data(this.questionService.getCountOfQuestion(id)).statusCode(200).build();
+    }
+
     @GetMapping("/question-id/{id}")
     public ResponseDTO retriveById(@PathVariable final String id){
         return ResponseDTO.builder().message(Constant.RETRIEVE)

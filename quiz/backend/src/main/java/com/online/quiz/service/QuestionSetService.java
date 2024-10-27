@@ -111,6 +111,11 @@ public class QuestionSetService {
         return this.questionSetRepository.findAllByIdNotInAndIsPracticeIsTrue(setId, search, pageable);
     }
 
+    public Page<QuestionSet> getQuestionSetSearch(String search, int pageNo, int pageSize, String fieldName, Sort.Direction direction) {
+        Pageable pageable =  PageRequest.of(pageNo, pageSize, Sort.by(direction, fieldName));
+        return this.questionSetRepository.findAllByIsRemovedIsFalse(search, pageable);
+    }
+
 //    public void sample(MultipartFile image,String id) throws IOException {
 //        QuestionSet questionSet=this.questionSetRepository.findById(id).orElseThrow();
 //        questionSet.setImage(image.getBytes());

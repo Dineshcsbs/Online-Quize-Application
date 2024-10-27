@@ -31,7 +31,7 @@ export const TestCompleteService = createApi({
             "Content-Type": "application/json", // Set the correct Content-Type
           },
           body: JSON.stringify(data),
-          invalidatesTags: ["finish"],
+          // invalidatesTags: ["finish"],
         }),
       }),
 
