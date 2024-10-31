@@ -20,6 +20,7 @@ import RegisterTest from "./pages/register-package/RegisterTest";
 import QuestionCreate from "./pages/question/QuestionCreate";
 import QuestionSet from "./pages/question/QuestionSet";
 import QuestionSetPage from "./pages/question/QuestionSetPage";
+import User from "./pages/profile/User";
 
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp authority={false} />} />
 
         <Route path="/" element={<Layout />}>
-          <Route path="dashboard" element={<DashBoard />} />
+          <Route path="/dashboard" element={<DashBoard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/assignment" element={<Assignment/>}/>
           <Route path="/completed" element={<CompletedTest/>}/>
@@ -43,6 +44,7 @@ function App() {
           <Route path="/question-create" element={<QuestionCreate/>}/>
           <Route path="/question-set" element={<QuestionSet/>}/>
           <Route path="/question-set-page" element={<QuestionSetPage/>}/>
+          <Route path="/user" element={<User/>}/>
         </Route>
         <Route path="/test" element={<TestWindow/>}/>
         <Route path="/result" element={<Result/>}/>

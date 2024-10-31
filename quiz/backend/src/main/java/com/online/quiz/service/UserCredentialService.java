@@ -2,11 +2,13 @@ package com.online.quiz.service;
 
 import com.online.quiz.dto.SignInRequestDTO;
 import com.online.quiz.dto.SignUpRequestDTO;
+import com.online.quiz.entity.User;
 import com.online.quiz.entity.UserCredential;
 import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.UserCredentialRepository;
 import com.online.quiz.uitl.Authority;
 import com.online.quiz.uitl.Constant;
+import com.online.quiz.uitl.JwtFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +22,9 @@ public class UserCredentialService {
 
     private final UserCredentialRepository userCredentialRepository;
     private final UserService userService;
+//    private final AdminServic
     private final PasswordEncoder passwordEncoder;
+    private final JwtFilter jwtFilter;
     private final AdminService adminService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -74,6 +78,14 @@ public class UserCredentialService {
         else{
             throw  new BadRequestServiceAlertException(Constant.CREDENTIALS_MISMATCH);
         }
+
+    }
+
+    public Object getUserDetail() {
+        UserCredential userCredential= this.userCredentialRepository.findById(jwtFilter.extractUsername().get("sub", String.class)).orElseThrow(()->new BadRequestServiceAlertException(Constant.CREDENTIALS_MISMATCH));
+        return userCredential.getAuthority().toString().equals("ADMIN")
+                ?adminService.getAdminDetail(userCredential.getId())
+                :userService.getUserDetail(userCredential.getId());
 
     }
 }

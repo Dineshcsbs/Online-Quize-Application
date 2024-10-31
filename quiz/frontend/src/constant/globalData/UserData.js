@@ -15,3 +15,11 @@ export const QUESTION = {
     image: ['Image', 'file'],
     choise: ['Set Choice', 'radio'] 
 };
+
+export const NAVBAR_ADMIN_DATA=['DashBoard','Question Set','Add Question','User Info'];
+
+export const NAVBAR_ADMIN_LINK=['/dashboard','/question-set','/question-set-page','/user'];
+
+export const NAVBAR_USER_DATA=['DashBoard','Practice','Assignment'];
+
+export const NAVBAR_USER_LINK=['/dashboard','/practice','/assignment'];

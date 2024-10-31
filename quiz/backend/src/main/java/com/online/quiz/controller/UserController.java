@@ -23,12 +23,12 @@ public class UserController {
         this.userService=userService;
     }
 
-    @GetMapping("/user-info")
-    public ResponseDTO getUserInfo(){
-        return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.userService.getUserDetail())
-                .statusCode(HttpStatus.FOUND.value()).build();
-    }
+//    @GetMapping("/user-info")
+//    public ResponseDTO getUserInfo(){
+//        return ResponseDTO.builder().message(Constant.RETRIEVE)
+//                .data(this.userService.getUserDetail())
+//                .statusCode(HttpStatus.FOUND.value()).build();
+//    }
 
     @PutMapping("/update")
     public ResponseDTO updateUserInfo(@ModelAttribute UpdateUserDTO updateUserDTO) throws IOException {

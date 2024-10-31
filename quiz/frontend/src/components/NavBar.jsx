@@ -1,25 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Icon } from "@iconify/react"; 
-import "bootstrap/dist/css/bootstrap.min.css";
-// import logo from "../assets/logo.jpg";
 import { PATH } from "../util";
 import mineType from "../../src/constant/mediaType/MimeType"
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { useAvailablePracticeQuery } from "../service/PracticeService";
-
 import { usePendingTestQuery } from "../service/TestService";
 import { useUserDataQuery } from "../service/LoginService";
+import { NAVBAR_ADMIN_DATA,NAVBAR_ADMIN_LINK,NAVBAR_USER_DATA,NAVBAR_USER_LINK } from "../constant/globalData/UserData";
 
 const CustomNavbar = () => {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const { data: availablePracticeTest } = useAvailablePracticeQuery();
   const { data: pendingTest } = usePendingTestQuery();
   const { data: user } = useUserDataQuery();
-
+  const [role,setRole]=useState();
+  const [navBarData,setNavBarData]=useState([]);
   localStorage.setItem("name", user?.data?.name);
-  // localStorage.setItem("role",user?.data?.userCredential?.authority);
+  localStorage.setItem("role",user?.data?.userCredential?.authority);
+  
+  useEffect(()=>{
+    setRole(user?.data?.userCredential?.authority);
+    if(user?.data?.userCredential?.authority==='ADMIN'){
+      localStorage.setItem('TempRole',role)
+    }
+  },[user])
+  useEffect(()=>{
+    if(role==='USER'){
+      setNavBarData([NAVBAR_USER_DATA,NAVBAR_USER_LINK])
+    }
+    else{
+      setNavBarData([NAVBAR_ADMIN_DATA,NAVBAR_ADMIN_LINK])
+    }
+    if(user?.data?.userCredential?.authority==='ADMIN'){
+      localStorage.setItem('TempRole',role)
+    }
+  },[role])
+
   const navigate = useNavigate();
   const handleNavbarToggle = () => {
     setNavbarOpen(!navbarOpen);
@@ -60,7 +78,16 @@ const CustomNavbar = () => {
           className={navbarOpen ? "show" : ""}
         >
           <Nav className="ms-auto">
-            {localStorage.getItem('role')==='ADMIN'?<Button
+
+          {navBarData[0]?.map((item,index)=>(
+            <Button
+            className={"btn bg-dark text-white mb-1 border-0 me-5"}
+            children={`${item}`}
+            onClick={() => navigate(`${navBarData[1]?.[index]}`)}
+          />
+          ))}
+
+            {/* {localStorage.getItem('role')==='ADMIN'?<Button
               className={"btn bg-dark text-white mb-1 border-0 me-5"}
               children="Question"
               onClick={() => navigate("/question-create")}
@@ -90,7 +117,7 @@ const CustomNavbar = () => {
                 const status = "active";
                 navigate("/assignment", { state: { result, status } });
               }}
-            />
+            /> */}
 
             <NavDropdown
               title={
@@ -109,7 +136,12 @@ const CustomNavbar = () => {
                 className={"btn bg-white mb-1"}
                 children="Profile"
                 onClick={() => navigate("/profile")}
-              />
+              /><br/>
+              {localStorage.getItem('role')==='ADMIN'&&<Button
+                className={"btn bg-white mb-1"}
+                children={`${role==='ADMIN'?'USER':'ADMIN'}`}
+                onClick={() => setRole(role==='ADMIN'?'USER':'ADMIN')}
+              />}
               <NavDropdown.Divider />
               <Button
                 className={"btn bg-white mb-1"}

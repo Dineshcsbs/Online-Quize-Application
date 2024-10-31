@@ -32,16 +32,16 @@ export const LoginService = createApi({
     }),
 
     userData: build.query({
-      query: (data) => "api/v1/user-info",
+      query: (data) => "auth/user-info",
     }),
 
-    updateUser:build.mutation({
-      query:(data)=>({
-        url:'update',
-        method:"PUT",
-        body:data,
-      })
-    }),
+    // updateUser:build.mutation({
+    //   query:(data)=>({
+    //     url:'update',
+    //     method:"PUT",
+    //     body:data,
+    //   })
+    // }),
 
     // testUser: build.query({
     //   query: (data) => "api/v1/test-user",
@@ -164,7 +164,7 @@ export const {
   useUserSignMutation,
   // useDemoGetQuestionQuery,
   useUserDataQuery,
-  useUpdateUserMutation,
+  // useUpdateUserMutation,
   // useTestUserQuery,
   // useAvailablePracticeQuery,
   // useActiveTestQuery,

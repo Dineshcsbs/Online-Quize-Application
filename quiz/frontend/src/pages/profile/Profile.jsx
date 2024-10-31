@@ -9,7 +9,8 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Select from "../../components/DropDown";
 import { useForm } from "react-hook-form";
-import { useUpdateUserMutation, useUserDataQuery } from "../../service/LoginService";
+import {  useUserDataQuery } from "../../service/LoginService";
+import { useUpdateUserMutation,useUpdateAdminMutation } from "../../service/ProfileService";
 
 const fieldData = ["name", "age", "designition", "phoneNumber", "gender"];
 const designationOptions = ["software", "tester"];
@@ -17,8 +18,9 @@ const gender = ["Male", "Female"];
 const Profile = () => {
   const navigate = useNavigate();
   const { data: userData } = useUserDataQuery();
-  const [updateUserInfo]=useUpdateUserMutation();
 
+  const [updateUserInfo]=useUpdateUserMutation();
+  const [updateAdmin]=useUpdateAdminMutation();
   const [updateStatus, setUpdateStatus] = useState(false);
   const [image, setImage] = useState(null);
   useEffect(() => {
@@ -56,9 +58,16 @@ const Profile = () => {
         formData.append("phoneNumber", data.phoneNumber);
         if (image) {
             formData.append("image",image); 
-        }     
-        const res = await updateUserInfo(formData).unwrap();
-        toast.success("Update Successfully");
+        }  
+        var res;
+        if(localStorage.getItem('role')==='USER')   
+            res = await updateUserInfo(formData).unwrap();
+        else 
+            res =await updateAdmin(formData).unwrap();
+        if(res?.statusCode===200)
+          toast.success("Update Successfully");
+        else 
+        toast.error("Unable to update the user Info");
         setUpdateStatus(false);
         setImage(null);
     } catch (error) {

@@ -63,8 +63,8 @@ public class UserService {
                 .orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
-    public User getUserDetail() {
-        return this.userRepository.findByUserCredentialId(jwtFilter.extractUsername().get("sub",String.class));
+    public User getUserDetail(final String id) {
+        return this.userRepository.findByUserCredentialId(id);
     }
 
 //    public User updateUserInfo(UpdateUserDTO updateUserDTO) {

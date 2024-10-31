@@ -33,6 +33,13 @@ public class UserCredentialController {
                 .build();
     }
 
+    @GetMapping("/user-info")
+    public ResponseDTO getUserInfo(){
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.userCredentialService.getUserDetail())
+                .statusCode(HttpStatus.FOUND.value()).build();
+    }
+
 //    @DeleteMapping("/user/{id}")
 //    public String deleteUser(@PathVariable final String id) {
 //        return this.userCredentialService.deleteUser(id);

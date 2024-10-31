@@ -16,14 +16,21 @@ export const ProfileService = createApi({
     }),
     // tagType: ["register", "finish","active"],
     endpoints: (build) => ({
-    //   userSign: build.mutation({
-    //     query: (data) => ({
-    //       url: `auth/register`,
-    //       method: "POST",
-    //       body: data,
-    //     }),
-    //   }),
+      updateUser:build.mutation({
+        query:(data)=>({
+          url:'api/v1/update',
+          method:"PUT",
+          body:data,
+        })
+      }),
+      updateAdmin:build.mutation({
+        query:(data)=>({
+          url:'api/v1/update-admin',
+          method:"PUT",
+          body:data,
+        })
+      }),
     }),
 });
 
-export const {}=ProfileService;
+export const {useUpdateUserMutation,useUpdateAdminMutation}=ProfileService;

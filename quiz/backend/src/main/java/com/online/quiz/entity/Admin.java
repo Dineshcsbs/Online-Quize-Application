@@ -28,6 +28,9 @@ public class Admin {
     private Instant createdAt;
     @UpdateTimestamp
     private Instant updatedAt;
+    @Lob
+    @Column(length = 500000)
+    private byte[] image;
     @OneToOne
     private UserCredential userCredential;
 }
