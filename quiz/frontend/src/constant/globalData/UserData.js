@@ -16,6 +16,8 @@ export const QUESTION = {
     choise: ['Set Choice', 'radio'] 
 };
 
+export const USER_INFO=['Name','Email','Phone Number','Test Completed','Practice Test','Assignment Pending','Avg Mark','Total Register Test',
+    'Available Test','Total Register Practice','Total Available Pracice'];
 export const NAVBAR_ADMIN_DATA=['DashBoard','Question Set','Add Question','User Info'];
 
 export const NAVBAR_ADMIN_LINK=['/dashboard','/question-set','/question-set-page','/user'];

@@ -30,7 +30,14 @@ export const ProfileService = createApi({
           body:data,
         })
       }),
+      userInformation:build.query({
+        query:({search,searchCurrentPageNo})=>`api/v1/all-user-info?pageNo=${searchCurrentPageNo}${search.length===0?"":`&search=${search}`}`,
+
+      }),
+      userInfoData:build.query({
+        query:(id)=>`api/v1/retrieve-user-info/${id}`
+      })
     }),
 });
 
-export const {useUpdateUserMutation,useUpdateAdminMutation}=ProfileService;
+export const {useUpdateUserMutation,useUpdateAdminMutation,useUserInformationQuery,useUserInfoDataQuery }=ProfileService;

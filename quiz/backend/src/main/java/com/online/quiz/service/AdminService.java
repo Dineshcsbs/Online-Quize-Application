@@ -3,13 +3,11 @@ package com.online.quiz.service;
 import com.online.quiz.dto.SignUpRequestDTO;
 import com.online.quiz.dto.UpdateUserDTO;
 import com.online.quiz.entity.Admin;
-import com.online.quiz.entity.User;
 import com.online.quiz.entity.UserCredential;
 import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.AdminRepository;
 import com.online.quiz.uitl.Constant;
 import com.online.quiz.uitl.JwtFilter;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-//@AllArgsConstructor
 public class AdminService {
 
     private final AdminRepository adminRepository;

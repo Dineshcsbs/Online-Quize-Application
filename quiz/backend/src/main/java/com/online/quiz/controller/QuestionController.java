@@ -1,23 +1,20 @@
 package com.online.quiz.controller;
 
-import com.online.quiz.dto.AnswerDTO;
-import com.online.quiz.dto.QuestionDTO;
 import com.online.quiz.dto.ResponseDTO;
 import com.online.quiz.entity.Question;
 import com.online.quiz.service.QuestionService;
 import com.online.quiz.uitl.Constant;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequestMapping("api/v1")
-@AllArgsConstructor
 public class QuestionController {
     private final QuestionService questionService;
+
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
 
     @PostMapping("/question")
     public ResponseDTO createQuestion(@RequestBody final Question question){

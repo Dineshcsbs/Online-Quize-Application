@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseMarkResult {
+public class ResponseMarkResultDTO {
 
     private Integer totalQuestion;
     private Integer correctAnswer;

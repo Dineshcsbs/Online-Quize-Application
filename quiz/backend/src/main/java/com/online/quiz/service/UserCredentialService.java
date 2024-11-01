@@ -2,14 +2,12 @@ package com.online.quiz.service;
 
 import com.online.quiz.dto.SignInRequestDTO;
 import com.online.quiz.dto.SignUpRequestDTO;
-import com.online.quiz.entity.User;
 import com.online.quiz.entity.UserCredential;
 import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.UserCredentialRepository;
 import com.online.quiz.uitl.Authority;
 import com.online.quiz.uitl.Constant;
 import com.online.quiz.uitl.JwtFilter;
-import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,17 +15,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class UserCredentialService {
 
     private final UserCredentialRepository userCredentialRepository;
     private final UserService userService;
-//    private final AdminServic
     private final PasswordEncoder passwordEncoder;
     private final JwtFilter jwtFilter;
     private final AdminService adminService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+
+    public UserCredentialService(UserCredentialRepository userCredentialRepository, UserService userService, PasswordEncoder passwordEncoder, JwtFilter jwtFilter, AdminService adminService, AuthenticationManager authenticationManager, JwtService jwtService) {
+        this.userCredentialRepository = userCredentialRepository;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtFilter = jwtFilter;
+        this.adminService = adminService;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+    }
 
 
     public UserCredential createCredential(final SignUpRequestDTO signUpRequestDTO) {

@@ -80,7 +80,7 @@ const CustomNavbar = () => {
           <Nav className="ms-auto">
 
           {navBarData[0]?.map((item,index)=>(
-            <Button
+            <Button key={index}
             className={"btn bg-dark text-white mb-1 border-0 me-5"}
             children={`${item}`}
             onClick={() => navigate(`${navBarData[1]?.[index]}`)}

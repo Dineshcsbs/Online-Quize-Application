@@ -3,19 +3,20 @@ package com.online.quiz.controller;
 import com.online.quiz.dto.ResponseDTO;
 import com.online.quiz.dto.SignInRequestDTO;
 import com.online.quiz.dto.SignUpRequestDTO;
-import com.online.quiz.entity.UserCredential;
 import com.online.quiz.service.UserCredentialService;
 import com.online.quiz.uitl.Constant;
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@AllArgsConstructor
 public class UserCredentialController {
 
     private final UserCredentialService userCredentialService;
+
+    public UserCredentialController(UserCredentialService userCredentialService) {
+        this.userCredentialService = userCredentialService;
+    }
 
     @PostMapping("/register")
     public ResponseDTO createUser(@RequestBody final SignUpRequestDTO signUpRequestDTO) {

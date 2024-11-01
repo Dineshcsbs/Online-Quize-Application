@@ -4,8 +4,6 @@ import com.online.quiz.dto.ResponseDTO;
 import com.online.quiz.dto.UpdateUserDTO;
 import com.online.quiz.service.AdminService;
 import com.online.quiz.uitl.Constant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -14,8 +12,12 @@ import java.io.IOException;
 @RequestMapping("/api/v1")
 public class AdminController {
 
-    @Autowired
-    private  AdminService adminService;
+
+    private  final AdminService adminService;
+
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
 //    public AdminController(AdminService adminService) {
 //        this.adminService = adminService;

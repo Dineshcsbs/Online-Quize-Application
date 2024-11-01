@@ -9,6 +9,10 @@ import com.online.quiz.repository.UserRepository;
 import com.online.quiz.uitl.Constant;
 import com.online.quiz.uitl.JwtFilter;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,8 +38,9 @@ public class UserService {
         return this.userRepository.findById(id).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public Page<User> getAllUser(final String search, final int pageNo, final int pageSize, final String fieldName, final Sort.Direction direction) {
+        Pageable pageable =  PageRequest.of(pageNo, pageSize, Sort.by(direction, fieldName));
+        return userRepository.findAllByAndIsRemovedIsFalse(search,pageable);
     }
 
     public User updateUser(UpdateUserDTO user) {

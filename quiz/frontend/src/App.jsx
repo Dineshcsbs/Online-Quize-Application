@@ -21,6 +21,7 @@ import QuestionCreate from "./pages/question/QuestionCreate";
 import QuestionSet from "./pages/question/QuestionSet";
 import QuestionSetPage from "./pages/question/QuestionSetPage";
 import User from "./pages/profile/User";
+import UserInfo from "./pages/profile/UserInfo";
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="/question-set" element={<QuestionSet/>}/>
           <Route path="/question-set-page" element={<QuestionSetPage/>}/>
           <Route path="/user" element={<User/>}/>
+          <Route path="/user-info" element={<UserInfo/>}/>
         </Route>
         <Route path="/test" element={<TestWindow/>}/>
         <Route path="/result" element={<Result/>}/>

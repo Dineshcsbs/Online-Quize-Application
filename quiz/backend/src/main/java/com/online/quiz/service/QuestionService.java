@@ -8,7 +8,6 @@ import com.online.quiz.repository.AnswerRepository;
 import com.online.quiz.repository.QuestionRepository;
 import com.online.quiz.uitl.Constant;
 import com.online.quiz.uitl.JwtFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,12 +15,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
-    @Autowired
-    private  QuestionRepository questionRepository;
-    @Autowired
-    private AnswerRepository answerRepository;
-    @Autowired
-    private JwtFilter jwtFilter;
+
+    private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
+    private final JwtFilter jwtFilter;
+
+    public QuestionService(QuestionRepository questionRepository, AnswerRepository answerRepository, JwtFilter jwtFilter) {
+        this.questionRepository = questionRepository;
+        this.answerRepository = answerRepository;
+        this.jwtFilter = jwtFilter;
+    }
 
     public Question createQuestion(final Question question) {
         return this.questionRepository.save(question);

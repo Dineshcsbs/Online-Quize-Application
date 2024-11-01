@@ -15,7 +15,7 @@ const login = [
 ];
 
 const Login = () => {
-  useEffect(()=>{localStorage.setItem("Token","");},[])
+  useEffect(()=>{localStorage.clear(); },[])
   const {
     register,
     handleSubmit,

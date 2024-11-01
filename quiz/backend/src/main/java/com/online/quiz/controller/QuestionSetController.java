@@ -3,25 +3,25 @@ package com.online.quiz.controller;
 import com.online.quiz.dto.QuestionSetDTO;
 import com.online.quiz.dto.ResponseDTO;
 import com.online.quiz.entity.QuestionSet;
-import com.online.quiz.entity.User;
 import com.online.quiz.service.QuestionSetService;
 import com.online.quiz.uitl.Constant;
-import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
+import com.online.quiz.uitl.JwtFilter;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-@AllArgsConstructor
 public class QuestionSetController {
     private final QuestionSetService questionSetService;
+    private final JwtFilter jwtFilter;
+
+    public QuestionSetController(QuestionSetService questionSetService, JwtFilter jwtFilter) {
+        this.questionSetService = questionSetService;
+        this.jwtFilter = jwtFilter;
+    }
 
     @PostMapping("/question-set")
     public ResponseDTO createQuestionSet(@ModelAttribute QuestionSetDTO questionSetDTO) throws IOException {
@@ -86,8 +86,15 @@ public class QuestionSetController {
     @GetMapping("/available-register")
     public ResponseDTO getAvailableRegister(){
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data( this.questionSetService.getAvailableRegister())
+                .data( this.questionSetService.getAvailableRegister(jwtFilter.extractUsername().get("sub", String.class)))
                 .statusCode(HttpStatus.FOUND.value()).build();
+    }
+
+    @GetMapping("/retrieve-user-info/{id}")
+    public ResponseDTO retrieveUserInfo(@PathVariable final String id){
+        return ResponseDTO.builder().message(Constant.RETRIEVE)
+                .data(this.questionSetService.retrieveUserInfo(id))
+                .statusCode(200).build();
     }
 
     @PutMapping("/question-set/{id}")

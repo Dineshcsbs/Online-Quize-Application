@@ -4,8 +4,9 @@ import com.online.quiz.dto.ResponseDTO;
 import com.online.quiz.entity.Test;
 import com.online.quiz.service.TestService;
 import com.online.quiz.uitl.Constant;
-import lombok.AllArgsConstructor;
 
+import com.online.quiz.uitl.JwtFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +15,23 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1")
-@AllArgsConstructor
 public class TestController {
 
     private final TestService testService;
+    private final JwtFilter jwtFilter;
+
+    public TestController(TestService testService, JwtFilter jwtFilter) {
+        this.testService = testService;
+        this.jwtFilter = jwtFilter;
+    }
+    private String getUserId() {
+        return jwtFilter.extractUsername().get("sub", String.class);
+    }
 
     @PostMapping("/test/{id}")
     public ResponseDTO createTest(@PathVariable final String id) {
         return ResponseDTO.builder().message(Constant.CREATE)
-                .data(this.testService.createTest(id))
+                .data(this.testService.createTest(id,getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 //    @PostMapping("/test")
@@ -45,14 +54,14 @@ public class TestController {
     @GetMapping("/test-completed")
     public ResponseDTO activeTest() {
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.testService.getAllCompletedTest())
+                .data(this.testService.getAllCompletedTest(getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/practice")
     public ResponseDTO practiceTest(){
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.testService.getPracticeTest())
+                .data(this.testService.getPracticeTest(getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 
@@ -78,14 +87,14 @@ public class TestController {
     @GetMapping("/test-user")
     public ResponseDTO getAllTest(){
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.testService.getTestUser())
+                .data(this.testService.getTestUser(getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/active-test")
     public ResponseDTO getPendingTest(){
         return ResponseDTO.builder().message(Constant.CREATE)
-                .data(this.testService.getPendingTest())
+                .data(this.testService.getPendingTest(getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 //    @GetMapping("/active-test-search")
@@ -101,7 +110,7 @@ public class TestController {
                                     @RequestParam(defaultValue = "id") final String fieldName,
                                     @RequestParam(defaultValue = "ASC") final Sort.Direction direction){
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.testService.getSearchAssignment(search, pageNo, pageSize, fieldName, direction))
+                .data(this.testService.getSearchAssignment(search, pageNo, pageSize, fieldName, direction,getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 
@@ -112,7 +121,7 @@ public class TestController {
                                        @RequestParam(defaultValue = "id") final String fieldName,
                                        @RequestParam(defaultValue = "ASC") final Sort.Direction direction) {
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.testService.getCompletedTestSearch(search, pageNo, pageSize, fieldName, direction))
+                .data(this.testService.getCompletedTestSearch(search, pageNo, pageSize, fieldName, direction,getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 
@@ -123,16 +132,18 @@ public class TestController {
                                         @RequestParam(defaultValue = "id") final String fieldName,
                                         @RequestParam(defaultValue = "ASC") final Sort.Direction direction){
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.testService.getPracticeTestSearch(search, pageNo, pageSize, fieldName, direction))
+                .data(this.testService.getPracticeTestSearch(search, pageNo, pageSize, fieldName, direction,getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 
     @GetMapping("/average-mark")
     public ResponseDTO averageMark(){
         return ResponseDTO.builder().message(Constant.RETRIEVE)
-                .data(this.testService.getAverageMark())
+                .data(this.testService.getAverageMark(getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
+
+
 
     @DeleteMapping("/test/{id}")
     public ResponseDTO deleteTest(@PathVariable final String id) {
@@ -144,7 +155,7 @@ public class TestController {
     @PostMapping("/mark/{id}")
     public ResponseDTO getTestService(@PathVariable final String id, @RequestBody final Map<String, String> answerDTO) {
         return ResponseDTO.builder().message(Constant.CREATE)
-                .data(this.testService.answer(id,answerDTO))
+                .data(this.testService.answer(id,answerDTO,getUserId()))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 }
