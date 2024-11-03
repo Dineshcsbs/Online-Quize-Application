@@ -9,9 +9,9 @@ spring:
   application:
     name: quiz
   datasource:
-    url: jdbc:mysql://localhost:3306/online_quiz
-    username: root
-    password: Dinesh@006
+    url: jdbc:mysql://sql12.freesqldatabase.com/sql12742432
+    username: sql12742432
+    password: X5M86g2nMR
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
