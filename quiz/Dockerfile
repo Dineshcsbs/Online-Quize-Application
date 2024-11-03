@@ -20,6 +20,9 @@ WORKDIR /app/backend
 
 # Copy pom.xml and install dependencies
 COPY backend/pom.xml ./
+RUN mvn dependency:go-offline
+
+# Copy the source code and package the application
 COPY backend/src ./src
 RUN mvn clean package -DskipTests
 
@@ -35,12 +38,10 @@ COPY --from=frontend-build /app/frontend/build /usr/share/nginx/html
 # Copy the Spring Boot jar file to the final image
 COPY --from=backend-build /app/backend/target/*.jar app.jar
 
-# Remove default Nginx configuration (optional)
-RUN rm /etc/nginx/conf.d/default.conf
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy custom Nginx configuration (we'll create this next)
-COPY nginx.conf /etc/nginx/conf.d
-
+# Expose ports for Nginx (80) and Spring Boot (8080)
 EXPOSE 80 8080
 
 # Start Nginx and the Spring Boot application together
