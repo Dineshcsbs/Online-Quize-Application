@@ -1,10 +1,9 @@
 server:
-  port: ${SERVER_PORT}
+  port: 8080
 
 security:
   jwt:
-    secret-key: ${SECRET_KEY}
-
+    secret-key: HelloWorldefqefqkejnqdrboqdodvmwfewrghytrdfwfr4wr434qeifqefnjkef
 spring:
   application:
     name: quiz
