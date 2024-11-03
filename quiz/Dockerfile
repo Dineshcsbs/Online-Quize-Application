@@ -27,9 +27,6 @@ COPY --from=backend-build /app/backend/target/*.jar app.jar
 # Install Nginx
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
-# Copy an Nginx configuration file (if you have custom settings)
-COPY nginx.conf /etc/nginx/nginx.conf
-
 # Expose ports
 EXPOSE 80
 EXPOSE 8080
