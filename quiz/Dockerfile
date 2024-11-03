@@ -32,6 +32,10 @@ FROM openjdk:17-jdk-slim
 # Install Nginx to serve the React app
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
+# Verify nginx.conf is in the build context
+# (optional) This is for debugging purposes; remove it if not needed
+RUN ls -la /path/to/nginx.conf
+
 # Copy built React app to Nginx html directory
 COPY --from=frontend-build /app/frontend/build /usr/share/nginx/html
 
@@ -39,6 +43,8 @@ COPY --from=frontend-build /app/frontend/build /usr/share/nginx/html
 COPY --from=backend-build /app/backend/target/*.jar app.jar
 
 # Copy custom Nginx configuration
+# Ensure that nginx.conf is in the same directory as the Dockerfile
+# or adjust the path as necessary (e.g., config/nginx.conf if in a config folder)
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose ports for Nginx (80) and Spring Boot (8080)
