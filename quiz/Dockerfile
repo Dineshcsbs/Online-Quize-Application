@@ -27,7 +27,7 @@ COPY --from=backend-build /app/backend/target/*.jar app.jar
 # Install Nginx
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
-# Copy a default Nginx configuration if needed
+# Copy the Nginx configuration file
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose ports for Nginx and Spring Boot
