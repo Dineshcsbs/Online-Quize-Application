@@ -4,7 +4,7 @@ FROM node:14 AS frontend-build
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
-COPY frontend ./
+COPY frontend/ ./
 RUN npm run build
 
 # Stage 2: Build the Spring Boot app
@@ -27,7 +27,10 @@ COPY --from=backend-build /app/backend/target/*.jar app.jar
 # Install Nginx
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
-# Expose ports
+# Copy a default Nginx configuration if needed
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose ports for Nginx and Spring Boot
 EXPOSE 80
 EXPOSE 8080
 
