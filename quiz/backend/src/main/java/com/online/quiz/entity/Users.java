@@ -15,7 +15,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

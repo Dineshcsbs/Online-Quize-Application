@@ -25,7 +25,7 @@ public class QuestionSetController {
 
     @PostMapping("/question-set")
     public ResponseDTO createQuestionSet(@ModelAttribute QuestionSetDTO questionSetDTO) throws IOException {
-        System.out.println(questionSetDTO);
+//        System.out.println(questionSetDTO);
         return ResponseDTO.builder().message(Constant.CREATE)
                 .data(this.questionSetService.createQuestionSet(questionSetDTO))
                 .statusCode(200).build();

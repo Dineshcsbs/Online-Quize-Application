@@ -2,7 +2,7 @@ package com.online.quiz.service;
 
 import com.online.quiz.dto.SignUpRequestDTO;
 import com.online.quiz.dto.UpdateUserDTO;
-import com.online.quiz.entity.User;
+import com.online.quiz.entity.Users;
 import com.online.quiz.entity.UserCredential;
 import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.UserRepository;
@@ -27,24 +27,24 @@ public class UserService {
     private final JwtFilter jwtFilter;
 
     public void createUser(final SignUpRequestDTO signUpRequestDTO, final UserCredential userCredential) {
-        userRepository.save(User.builder()
+        userRepository.save(Users.builder()
                 .name(signUpRequestDTO.getName())
                 .isRemoved(false)
                 .userCredential(userCredential)
                 .build());
     }
 
-    public User getUser(final String id) {
+    public Users getUser(final String id) {
         return this.userRepository.findById(id).orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
-    public Page<User> getAllUser(final String search, final int pageNo, final int pageSize, final String fieldName, final Sort.Direction direction) {
+    public Page<Users> getAllUser(final String search, final int pageNo, final int pageSize, final String fieldName, final Sort.Direction direction) {
         Pageable pageable =  PageRequest.of(pageNo, pageSize, Sort.by(direction, fieldName));
         return userRepository.findAllByAndIsRemovedIsFalse(search,pageable);
     }
 
-    public User updateUser(UpdateUserDTO user) {
-        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUserCredential_Id(jwtFilter.extractUsername().get("sub", String.class)));
+    public Users updateUser(UpdateUserDTO user) {
+        Optional<Users> optionalUser = Optional.ofNullable(userRepository.findByUserCredential_Id(jwtFilter.extractUsername().get("sub", String.class)));
 
         return optionalUser.map(userInfo -> {
                     if (user.getGender() != null) {
@@ -68,7 +68,7 @@ public class UserService {
                 .orElseThrow(()-> new BadRequestServiceAlertException(Constant.IDDOESNOTEXIT));
     }
 
-    public User getUserDetail(final String id) {
+    public Users getUserDetail(final String id) {
         return this.userRepository.findByUserCredentialId(id);
     }
 

@@ -4,7 +4,7 @@ import com.online.quiz.dto.QuestionSetDTO;
 import com.online.quiz.dto.RetrieveUserInfoDTO;
 import com.online.quiz.entity.QuestionSet;
 import com.online.quiz.entity.Test;
-import com.online.quiz.entity.User;
+import com.online.quiz.entity.Users;
 import com.online.quiz.exception.BadRequestServiceAlertException;
 import com.online.quiz.repository.QuestionSetRepository;
 import com.online.quiz.uitl.Constant;
@@ -128,7 +128,7 @@ public class QuestionSetService {
 
     public RetrieveUserInfoDTO retrieveUserInfo(final String id) {
         List<List<Integer>> testData=getAvailableRegister(id);
-        User user=userService.getUser(id);
+        Users user=userService.getUser(id);
         return RetrieveUserInfoDTO.builder()
                 .image(user.getImage())
                 .practiceTest(testService.getPracticeTest(id))

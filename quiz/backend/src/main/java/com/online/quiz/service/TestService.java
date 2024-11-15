@@ -32,8 +32,7 @@ public class TestService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
     private final UserRepository userRepository;
-//    private final QuestionSetService questionSetService;
-//    private final UserService userService;
+
 
     public TestService(TestRepository testRepository, QuestionService questionService, QuestionRepository questionRepository, AnswerRepository answerRepository, UserRepository userRepository) {
         this.testRepository = testRepository;
@@ -41,13 +40,12 @@ public class TestService {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
         this.userRepository = userRepository;
-//        this.questionSetService = questionSetService;
-//        this.userService = userService;
+
     }
 
     public Test createTest(final String setId,final String id){
         return this.testRepository.save(Test.builder().questionSet(QuestionSet.builder().id(setId).build())
-                        .user(userRepository.findByUserCredentialId(id))
+                        .users(userRepository.findByUserCredentialId(id))
                         .isRemoved(false).isActive(false)
                 .build());
     }
@@ -57,7 +55,7 @@ public class TestService {
 
     public Integer getAllCompletedTest(final String id){
 //        System.err.println(jwtFilter.extractUsername().get("sub", String.class));
-        return this.testRepository.findAllByIsActiveTrueAndIsRemovedFalseAndUser_UserCredential_Id(id).size();
+        return this.testRepository.findAllByIsActiveTrueAndIsRemovedFalseAndUsers_UserCredential_Id(id).size();
     }
     public Test updateTest(final String id,final Test test){
         Optional <Test> test1= Optional.ofNullable(this.testRepository.findByIdAndIsRemovedIsFalse(id));
@@ -69,7 +67,7 @@ public class TestService {
     }
 
     public List<Test> getAllUnRegisterSet(final String id){
-        return this.testRepository.findAllByUser_UserCredential_IdAndIsRemovedIsFalse(id);
+        return this.testRepository.findAllByUsers_UserCredential_IdAndIsRemovedIsFalse(id);
     }
 
     public String deleteTest(final String id){
@@ -79,10 +77,13 @@ public class TestService {
 
     public ResponseMarkResultDTO answer(final String testId, final Map<String, String> answerDTO,final String id) {
         Test testIsPresent=testRepository.findById(testId).orElseThrow();
+        System.out.println(testId);
         if(!testIsPresent.getQuestionSet().getIsPractice()){
-            answerRepository.save(Answer.builder().userAnswer(answerDTO.toString())
+            answerRepository.save(
+                    Answer.builder().userAnswer(answerDTO.toString())
                     .userCredential(UserCredential.builder().id(id).build())
-                    .questionSet(testRepository.findById(id).orElseThrow().getQuestionSet()).build());
+                    .questionSet(testRepository.findById(testId).orElseThrow().getQuestionSet()).build()
+            );
         }
         List<Question> questions = this.questionRepository.findAllByQuestionSet_Id(testIsPresent.getQuestionSet().getId());
         AtomicInteger mark = new AtomicInteger();
@@ -93,7 +94,7 @@ public class TestService {
             }
         });
         if(!testIsPresent.getQuestionSet().getIsPractice()) {
-            Test test=this.testRepository.findById(id).orElseThrow();
+            Test test=this.testRepository.findById(testId).orElseThrow();
             test.setMark((float)(mark.get()*100/ questions.size()));
             test.setIsActive(true);
             testRepository.save(test);
@@ -111,15 +112,15 @@ public class TestService {
 
 
     public List<Test> getTestUser(final String id) {
-        return this.testRepository.findAllByUser_UserCredential_IdAndIsActiveIsTrue(id);
+        return this.testRepository.findAllByUsers_UserCredential_IdAndIsActiveIsTrue(id);
     }
 
     public Integer getPendingTest(final String id) {
-        return this.testRepository.findAllByUser_UserCredential_IdAndQuestionSet_IsPracticeIsFalseAndIsActiveIsFalse(id).size();
+        return this.testRepository.findAllByUsers_UserCredential_IdAndQuestionSet_IsPracticeIsFalseAndIsActiveIsFalse(id).size();
     }
     public Page<Test> getPendingSearchTest(final int pageNo, final int pageSize, final String fieldName, final Sort.Direction direction,final String id) {
         Pageable pageable =  PageRequest.of(pageNo, pageSize, Sort.by(direction, fieldName));
-        return this.testRepository.findAllByUser_UserCredential_IdAndQuestionSet_IsPracticeIsFalseAndIsActiveIsFalse(id,pageable);
+        return this.testRepository.findAllByUsers_UserCredential_IdAndQuestionSet_IsPracticeIsFalseAndIsActiveIsFalse(id,pageable);
     }
 
     public List<QuestionDTO> retriveQuestionSet(final String id) {
@@ -128,7 +129,7 @@ public class TestService {
 
 
     public Float getAverageMark(final String id) {
-        List<Test> test=this.testRepository.findAllByUser_UserCredential_Id(id);
+        List<Test> test=this.testRepository.findAllByUsers_UserCredential_Id(id);
         if( test.isEmpty()) return 0.0F;
         Float totalMark=0F;
         for(Test tests:test){
@@ -138,12 +139,12 @@ public class TestService {
     }
 
     public List<QuestionDTO> getPracticeTestQuestion(final String questionSetId,final String id) {
-        Test test=this.testRepository.findAllByUser_UserCredential_IdAndQuestionSet_IsPracticeIsTrueAndIsActiveIsFalseAndQuestionSet_Id(id,questionSetId);
+        Test test=this.testRepository.findAllByUsers_UserCredential_IdAndQuestionSet_IsPracticeIsTrueAndIsActiveIsFalseAndQuestionSet_Id(id,questionSetId);
         return questionService.getQuestionSet(test.getQuestionSet().getId());
     }
 
     public Integer getPracticeTest(final String id) {
-        return this.testRepository.findAllByUser_UserCredential_IdAndQuestionSet_IsPracticeIsTrueAndIsActiveIsFalse(id).size();
+        return this.testRepository.findAllByUsers_UserCredential_IdAndQuestionSet_IsPracticeIsTrueAndIsActiveIsFalse(id).size();
     }
 
     public Page<Test> getSearchAssignment(final String search, final int pageNo, final int pageSize, final String fieldName, final Sort.Direction direction,final String id) {
@@ -165,7 +166,7 @@ public class TestService {
     }
 
     public List<Test> getAllUserRegisterTest(final String id) {
-        return this.testRepository.findAllByUser_UserCredential_Id(id);
+        return this.testRepository.findAllByUsers_UserCredential_Id(id);
     }
 
 //    public RetrieveUserInfoDTO retrieveUserInfo(final String id) {

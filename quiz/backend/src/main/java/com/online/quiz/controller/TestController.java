@@ -154,8 +154,9 @@ public class TestController {
 
     @PostMapping("/mark/{id}")
     public ResponseDTO getTestService(@PathVariable final String id, @RequestBody final Map<String, String> answerDTO) {
+//        System.out.println(id);
         return ResponseDTO.builder().message(Constant.CREATE)
-                .data(this.testService.answer(id,answerDTO,getUserId()))
+                .data(this.testService.answer(id,answerDTO,jwtFilter.extractUsername().get("sub", String.class)))
                 .statusCode(HttpStatus.CREATED.value()).build();
     }
 }

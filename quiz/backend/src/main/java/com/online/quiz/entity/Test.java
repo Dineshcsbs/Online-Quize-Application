@@ -28,7 +28,7 @@ public class Test {
     private Instant updatedAt;
     private Boolean isRemoved;
     @ManyToOne
-    private User user;
+    private Users users;
     @ManyToOne
     private QuestionSet questionSet;
 }
